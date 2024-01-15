@@ -5,6 +5,7 @@ import {
   //  theme
 } from "antd";
 import Sider from "antd/es/layout/Sider";
+import { Outlet } from "react-router-dom";
 // import { Content, Footer, Header } from "antd/es/layout/layout";
 // import {
 //   UploadOutlined,
@@ -107,6 +108,8 @@ const MainLayout = () => {
             <h1 style={{ fontSize: "20px", color: "blue" }}>
               This is where we have to show our content
             </h1>
+
+            <Outlet />
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
