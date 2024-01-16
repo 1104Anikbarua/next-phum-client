@@ -4,8 +4,9 @@ import AdminDashboard from "../pages/Admin/AdminDashboard";
 import CreateAdmin from "../pages/Admin/CreateAdmin";
 import CreateFaculty from "../pages/Admin/CreateFaculty";
 import CreateStudent from "../pages/Admin/CreateStudent";
+import { NavLink } from "react-router-dom";
 
-export const adminSidebarRoutes = [
+export const adminRoutes = [
   {
     name: "Dashboard",
     path: "dashboard",
@@ -58,8 +59,14 @@ type TRoutes = {
   element: ReactNode;
 };
 
-// generate admin routes from adminSidebarRoutes
-export const adminChildrenRoutes = adminSidebarRoutes.reduce(
+type TSidebarRoutes = {
+  key: string;
+  label: ReactNode;
+  children?: TSidebarRoutes[];
+};
+
+// generate admin routes from adminRoutes
+export const adminChildrenRoutes = adminRoutes.reduce(
   (previous: TRoutes[], current) => {
     //   console.log({ previous }, { current });
     if (current?.path && current?.element) {
@@ -81,3 +88,30 @@ export const adminChildrenRoutes = adminSidebarRoutes.reduce(
   },
   []
 );
+
+const adminSidebarRoutes = adminRoutes.reduce(
+  (previous: TSidebarRoutes[], current) => {
+    console.log({ previous, current });
+    if (current?.name && current?.path) {
+      previous.push({
+        key: current?.name,
+        label: (
+          <NavLink to={`/admin/${current?.path}`}>{current?.name}</NavLink>
+        ),
+      });
+    }
+    if (current?.children) {
+      previous.push({
+        key: current.name,
+        label: current.name,
+        children: current.children.map((child) => ({
+          key: child.name,
+          label: <NavLink to={`/admin/${child.path}`}>{child.name}</NavLink>,
+        })),
+      });
+    }
+    return previous;
+  },
+  []
+);
+console.log(adminSidebarRoutes);
