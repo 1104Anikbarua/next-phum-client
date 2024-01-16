@@ -5,7 +5,7 @@ import {
   //  theme
 } from "antd";
 import Sider from "antd/es/layout/Sider";
-import { Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 // import { Content, Footer, Header } from "antd/es/layout/layout";
 // import {
 //   UploadOutlined,
@@ -29,27 +29,28 @@ const { Header, Content, Footer } = Layout;
 
 const items: MenuProps["items"] = [
   {
-    key: "1",
-    label: "User",
+    key: "Dashboard",
+    label: <NavLink to={"/admin/dashboard"}>Dashboard</NavLink>,
   },
   {
-    key: "2",
-    label: "Teacher",
-  },
-  {
-    key: "3",
-    label: "Admin",
-  },
-  {
-    key: "4",
-    label: "Student",
+    key: "User Management",
+    label: "User Management",
     children: [
-      { key: "41", label: "Student-1" },
-      { key: "42", label: "Student-2" },
+      {
+        key: "Create Admin",
+        label: <NavLink to={"/admin/create-admin"}>Create Admin</NavLink>,
+      },
+      {
+        key: "Create Faculty",
+        label: <NavLink to={"/admin/create-faculty"}>Create Faculty</NavLink>,
+      },
+      {
+        key: "Create Student",
+        label: <NavLink to={"/admin/create-student"}>Create Student</NavLink>,
+      },
     ],
   },
 ];
-console.log(items);
 
 const MainLayout = () => {
   // const {
