@@ -89,7 +89,7 @@ export const adminChildrenRoutes = adminRoutes.reduce(
   []
 );
 
-const adminSidebarRoutes = adminRoutes.reduce(
+export const adminSidebarRoutes = adminRoutes.reduce(
   (previous: TSidebarRoutes[], current) => {
     console.log({ previous, current });
     if (current?.name && current?.path) {

@@ -1,11 +1,15 @@
 import {
   Layout,
   Menu,
-  MenuProps,
+  // MenuProps,
   //  theme
 } from "antd";
 import Sider from "antd/es/layout/Sider";
-import { NavLink, Outlet } from "react-router-dom";
+import {
+  // NavLink,
+  Outlet,
+} from "react-router-dom";
+import { adminSidebarRoutes } from "../../routes/admin.routes";
 // import { Content, Footer, Header } from "antd/es/layout/layout";
 // import {
 //   UploadOutlined,
@@ -27,30 +31,30 @@ const { Header, Content, Footer } = Layout;
 //   label: `nav ${index + 1}`,
 // }));
 
-const items: MenuProps["items"] = [
-  {
-    key: "Dashboard",
-    label: <NavLink to={"/admin/dashboard"}>Dashboard</NavLink>,
-  },
-  {
-    key: "User Management",
-    label: "User Management",
-    children: [
-      {
-        key: "Create Admin",
-        label: <NavLink to={"/admin/create-admin"}>Create Admin</NavLink>,
-      },
-      {
-        key: "Create Faculty",
-        label: <NavLink to={"/admin/create-faculty"}>Create Faculty</NavLink>,
-      },
-      {
-        key: "Create Student",
-        label: <NavLink to={"/admin/create-student"}>Create Student</NavLink>,
-      },
-    ],
-  },
-];
+// const items: MenuProps["items"] = [
+//   {
+//     key: "Dashboard",
+//     label: <NavLink to={"/admin/dashboard"}>Dashboard</NavLink>,
+//   },
+//   {
+//     key: "User Management",
+//     label: "User Management",
+//     children: [
+//       {
+//         key: "Create Admin",
+//         label: <NavLink to={"/admin/create-admin"}>Create Admin</NavLink>,
+//       },
+//       {
+//         key: "Create Faculty",
+//         label: <NavLink to={"/admin/create-faculty"}>Create Faculty</NavLink>,
+//       },
+//       {
+//         key: "Create Student",
+//         label: <NavLink to={"/admin/create-student"}>Create Student</NavLink>,
+//       },
+//     ],
+//   },
+// ];
 
 const MainLayout = () => {
   // const {
@@ -87,7 +91,7 @@ const MainLayout = () => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={["1"]}
-          items={items}
+          items={adminSidebarRoutes}
         />
       </Sider>
       <Layout>
