@@ -53,11 +53,11 @@ export const adminRoutes = [
 //   },
 // ];
 
-type TRoutes = {
-  //   name: string;
-  path: string;
-  element: ReactNode;
-};
+// type TRoutes = {
+//   //   name: string;
+//   path: string;
+//   element: ReactNode;
+// };
 
 type TSidebarRoutes = {
   key: string;
@@ -66,32 +66,31 @@ type TSidebarRoutes = {
 };
 
 // generate admin routes from adminRoutes
-export const adminChildrenRoutes = adminRoutes.reduce(
-  (previous: TRoutes[], current) => {
-    //   console.log({ previous }, { current });
-    if (current?.path && current?.element) {
-      previous?.push({
-        path: current?.path,
-        element: current?.element,
-      });
-    }
-    if (current?.children) {
-      //   console.log("inside children", current.children);
-      current?.children?.forEach((child) => {
-        previous.push({
-          path: child?.path,
-          element: child?.element,
-        });
-      });
-    }
-    return previous;
-  },
-  []
-);
+// export const adminChildrenRoutes = adminRoutes.reduce(
+//   (previous: TRoutes[], current) => {
+//     //   console.log({ previous }, { current });
+//     if (current?.path && current?.element) {
+//       previous?.push({
+//         path: current?.path,
+//         element: current?.element,
+//       });
+//     }
+//     if (current?.children) {
+//       //   console.log("inside children", current.children);
+//       current?.children?.forEach((child) => {
+//         previous.push({
+//           path: child?.path,
+//           element: child?.element,
+//         });
+//       });
+//     }
+//     return previous;
+//   },
+//   []
+// );
 
 export const adminSidebarRoutes = adminRoutes.reduce(
   (previous: TSidebarRoutes[], current) => {
-    console.log({ previous, current });
     if (current?.name && current?.path) {
       previous.push({
         key: current?.name,
@@ -114,4 +113,3 @@ export const adminSidebarRoutes = adminRoutes.reduce(
   },
   []
 );
-console.log(adminSidebarRoutes);

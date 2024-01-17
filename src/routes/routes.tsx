@@ -6,7 +6,8 @@ import Profile from "../pages/Profile";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
 // import AdminLayout from "../components/layout/AdminLayout";
-import { adminChildrenRoutes } from "./admin.routes";
+import { getGenratedRoutes } from "../utlis/routes.utlis";
+import { adminRoutes } from "./admin.routes";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
     path: "/admin",
     element: <App />,
     //to reduce routes in root route we have create seperate route for specefic routes(e.g:admin)
-    children: adminChildrenRoutes,
+    children: getGenratedRoutes(adminRoutes),
   },
 
   { path: "/login", element: <Login /> },
