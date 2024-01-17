@@ -8,9 +8,8 @@ import Login from "../pages/Login";
 // import AdminLayout from "../components/layout/AdminLayout";
 import { getGenratedRoutes } from "../utlis/routes.utlis";
 import { adminRoutes } from "./admin.routes";
-import StudentDashboard from "../pages/Student/StudentDashboard";
-import OfferedCourse from "../pages/Student/OfferedCourse";
-import FacultyDashboard from "../pages/Faculty/FacultyDashboard";
+import { facultyRoutes } from "./faculty.routes";
+import { studentRoutes } from "./student.routes";
 
 const router = createBrowserRouter([
   {
@@ -33,22 +32,13 @@ const router = createBrowserRouter([
   {
     path: "/faculty",
     element: <App />,
-    children: [{ path: "dashboard", element: <FacultyDashboard /> }],
+    children: getGenratedRoutes(facultyRoutes),
   },
 
   {
     path: "/student",
     element: <App />,
-    children: [
-      {
-        path: "dashboard",
-        element: <StudentDashboard />,
-      },
-      {
-        path: "offered-course",
-        element: <OfferedCourse />,
-      },
-    ],
+    children: getGenratedRoutes(studentRoutes),
   },
 
   { path: "/login", element: <Login /> },
