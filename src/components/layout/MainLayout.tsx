@@ -9,7 +9,9 @@ import {
   // NavLink,
   Outlet,
 } from "react-router-dom";
-import { adminSidebarRoutes } from "../../routes/admin.routes";
+import { getSidebarRoutes } from "../../utlis/routes.utlis";
+import { adminRoutes } from "../../routes/admin.routes";
+// import { adminSidebarRoutes } from "../../routes/admin.routes";
 // import { Content, Footer, Header } from "antd/es/layout/layout";
 // import {
 //   UploadOutlined,
@@ -91,7 +93,7 @@ const MainLayout = () => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={["1"]}
-          items={adminSidebarRoutes}
+          items={getSidebarRoutes(adminRoutes, "admin")}
         />
       </Sider>
       <Layout>

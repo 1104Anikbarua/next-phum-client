@@ -1,10 +1,9 @@
+// import { ReactNode } from "react";
 // import { NavLink } from "react-router-dom";
-import { ReactNode } from "react";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import CreateAdmin from "../pages/Admin/CreateAdmin";
 import CreateFaculty from "../pages/Admin/CreateFaculty";
 import CreateStudent from "../pages/Admin/CreateStudent";
-import { NavLink } from "react-router-dom";
 
 export const adminRoutes = [
   {
@@ -59,11 +58,11 @@ export const adminRoutes = [
 //   element: ReactNode;
 // };
 
-type TSidebarRoutes = {
-  key: string;
-  label: ReactNode;
-  children?: TSidebarRoutes[];
-};
+// type TSidebarRoutes = {
+//   key: string;
+//   label: ReactNode;
+//   children?: TSidebarRoutes[];
+// };
 
 // generate admin routes from adminRoutes
 // export const adminChildrenRoutes = adminRoutes.reduce(
@@ -89,27 +88,27 @@ type TSidebarRoutes = {
 //   []
 // );
 
-export const adminSidebarRoutes = adminRoutes.reduce(
-  (previous: TSidebarRoutes[], current) => {
-    if (current?.name && current?.path) {
-      previous.push({
-        key: current?.name,
-        label: (
-          <NavLink to={`/admin/${current?.path}`}>{current?.name}</NavLink>
-        ),
-      });
-    }
-    if (current?.children) {
-      previous.push({
-        key: current.name,
-        label: current.name,
-        children: current.children.map((child) => ({
-          key: child.name,
-          label: <NavLink to={`/admin/${child.path}`}>{child.name}</NavLink>,
-        })),
-      });
-    }
-    return previous;
-  },
-  []
-);
+// export const adminSidebarRoutes = adminRoutes.reduce(
+//   (previous: TSidebarRoutes[], current) => {
+//     if (current?.name && current?.path) {
+//       previous.push({
+//         key: current?.name,
+//         label: (
+//           <NavLink to={`/admin/${current?.path}`}>{current?.name}</NavLink>
+//         ),
+//       });
+//     }
+//     if (current?.children) {
+//       previous.push({
+//         key: current.name,
+//         label: current.name,
+//         children: current.children.map((child) => ({
+//           key: child.name,
+//           label: <NavLink to={`/admin/${child.path}`}>{child.name}</NavLink>,
+//         })),
+//       });
+//     }
+//     return previous;
+//   },
+//   []
+// );
