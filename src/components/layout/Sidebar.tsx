@@ -12,7 +12,7 @@ const Sidebar = () => {
     Student: "student",
   };
 
-  const role = "student";
+  const role = "admin";
   let sideBarRoutes;
 
   switch (role) {
