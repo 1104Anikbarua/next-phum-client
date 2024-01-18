@@ -5,21 +5,28 @@
 import { Button, Spin } from "antd";
 import { useForm } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
+import { useAppDispatch } from "../redux/hooks";
+import { login } from "../redux/features/auth/authSlice";
+import { getDecodedUser } from "../utlis/decodeUser.utlis";
 
 const Login = () => {
   // const onFinish = (values) => {
   //   console.log("Received values of form: ", values);
   // };
 
-  const [setLogin, { isLoading, error, data }] = useLoginMutation();
-
-  console.log(isLoading, error, data);
+  const [setLogin, { isLoading, error }] = useLoginMutation();
+  const dispatch = useAppDispatch();
+  console.log({ isLoading, error });
   const { handleSubmit, register } = useForm({
     defaultValues: { customId: "A-0001", password: "12345678" },
   });
 
-  const onSubmit = (data: { customId: string; password: string }) => {
-    setLogin(data);
+  const onSubmit = async (data: { customId: string; password: string }) => {
+    const res = await setLogin(data).unwrap();
+
+    const user = getDecodedUser(res.data.accessToken);
+
+    dispatch(login({ user, token: res.data.accessToken }));
   };
   return (
     // <Form
