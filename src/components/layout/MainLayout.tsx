@@ -1,4 +1,5 @@
 import {
+  Button,
   Layout,
   // Menu,
   // MenuProps,
@@ -10,6 +11,8 @@ import {
   Outlet,
 } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import { useAppDispatch } from "../../redux/hooks";
+import { logout } from "../../redux/features/auth/authSlice";
 // import { getSidebarRoutes } from "../../utlis/routes.utlis";
 // import { adminRoutes } from "../../routes/admin.routes";
 // import { adminSidebarRoutes } from "../../routes/admin.routes";
@@ -63,16 +66,23 @@ const MainLayout = () => {
   // const {
   //   token: { colorBgContainer, borderRadiusLG },
   // } = theme.useToken();
+
+  const dispatch = useAppDispatch();
+  const handleLogOut = () => {
+    dispatch(logout());
+  };
   return (
     <Layout style={{ height: "100vh" }}>
       <Sidebar />
       <Layout>
         <Header
-          style={{
-            padding: 0,
-            //  background: colorBgContainer
-          }}
-        />
+        // style={{
+        //   padding: 0,
+        //   background: colorBgContainer,
+        // }}
+        >
+          <Button onClick={handleLogOut}>Logout</Button>
+        </Header>
         <Content style={{ margin: "24px 16px 0" }}>
           <div
             style={{
