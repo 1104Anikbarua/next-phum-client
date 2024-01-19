@@ -2,7 +2,7 @@
 // import { LockOutlined, UserOutlined } from "@ant-design/icons";
 // import { Button, Checkbox, Form, Input } from "antd";
 import { Button, Spin } from "antd";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
 import { IUser, login } from "../redux/features/auth/authSlice";
@@ -25,7 +25,7 @@ const Login = () => {
     defaultValues: { customId: "A-0001", password: "12345678" },
   });
 
-  const onSubmit = async (data: { customId: string; password: string }) => {
+  const onSubmit = async (data: FieldValues) => {
     try {
       const toastId = toast.loading("Loading Data", {
         duration: 2000,
