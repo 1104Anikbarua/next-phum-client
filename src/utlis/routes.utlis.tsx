@@ -44,6 +44,6 @@ export const getSidebarRoutes = (items: TItems[], role: string) => {
     }
     return previous;
   }, []);
-  console.log(sidebarRoutes);
+
   return sidebarRoutes;
 };

@@ -10,6 +10,7 @@ import { getGenratedRoutes } from "../utlis/routes.utlis";
 import { adminRoutes } from "./admin.routes";
 import { facultyRoutes } from "./faculty.routes";
 import { studentRoutes } from "./student.routes";
+// import RequireAuth from "../components/shared/authentication/RequireAuth/RequireAuth";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <App />,
+    element: (
+      // <RequireAuth>
+      <App />
+    ),
+    // </RequireAuth>
     //to reduce routes in root route we have create seperate route for specefic routes(e.g:admin)
     children: getGenratedRoutes(adminRoutes),
   },

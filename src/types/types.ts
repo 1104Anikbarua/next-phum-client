@@ -17,3 +17,8 @@ export type TSidebarRoute = {
   label: ReactNode;
   children?: TSidebarRoute[];
 };
+
+// type for those component that recive only reactnode as children
+export interface IChildren {
+  children: ReactNode;
+}

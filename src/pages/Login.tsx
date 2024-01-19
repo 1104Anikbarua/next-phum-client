@@ -1,18 +1,23 @@
 // import React from 'react';
 // import { LockOutlined, UserOutlined } from "@ant-design/icons";
 // import { Button, Checkbox, Form, Input } from "antd";
-
 import { Button, Spin } from "antd";
 import { useForm } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
 import { login } from "../redux/features/auth/authSlice";
 import { getDecodedUser } from "../utlis/decodeUser.utlis";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
   // const onFinish = (values) => {
   //   console.log("Received values of form: ", values);
   // };
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const from = location?.state?.from?.pathname || "/";
 
   const [setLogin, { isLoading, error }] = useLoginMutation();
   const dispatch = useAppDispatch();
@@ -27,7 +32,12 @@ const Login = () => {
     const user = getDecodedUser(res.data.accessToken);
 
     dispatch(login({ user, token: res.data.accessToken }));
+
+    if ((user as { role: string })?.role as string) {
+      navigate(from, { replace: true });
+    }
   };
+
   return (
     // <Form
     //   name="normal_login"
