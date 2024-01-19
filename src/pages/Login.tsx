@@ -5,10 +5,11 @@ import { Button, Spin } from "antd";
 import { useForm } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
-import { login } from "../redux/features/auth/authSlice";
+import { IUser, login } from "../redux/features/auth/authSlice";
 import { getDecodedUser } from "../utlis/decodeUser.utlis";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { toast } from "sonner";
+import { CheckCircleOutlined, WarningOutlined } from "@ant-design/icons";
 const Login = () => {
   // const onFinish = (values) => {
   //   console.log("Received values of form: ", values);
@@ -16,8 +17,6 @@ const Login = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-
-  const from = location?.state?.from?.pathname || "/";
 
   const [setLogin, { isLoading, error }] = useLoginMutation();
   const dispatch = useAppDispatch();
@@ -27,14 +26,39 @@ const Login = () => {
   });
 
   const onSubmit = async (data: { customId: string; password: string }) => {
-    const res = await setLogin(data).unwrap();
+    try {
+      const toastId = toast.loading("Loading Data", {
+        duration: 2000,
+        icon: <Spin />,
+        position: "top-center",
+      });
 
-    const user = getDecodedUser(res.data.accessToken);
+      const res = await setLogin(data).unwrap();
 
-    dispatch(login({ user, token: res.data.accessToken }));
+      const user = getDecodedUser(res.data.accessToken) as IUser;
 
-    if ((user as { role: string })?.role as string) {
+      dispatch(login({ user, token: res.data.accessToken }));
+
+      //one solution if role is not exists in user object.
+      // if ((user as { role: string })?.role as string) {
+      //   navigate(from, { replace: true });
+      // }
+
+      toast.success("Logged in successful", {
+        duration: 2000,
+        icon: <CheckCircleOutlined />,
+        position: "top-center",
+        id: toastId,
+      });
+
+      const from = location?.state?.from?.pathname || `/${user?.role}`;
       navigate(from, { replace: true });
+    } catch (error) {
+      toast.error("Login failed", {
+        duration: 2000,
+        icon: <WarningOutlined />,
+        position: "top-center",
+      });
     }
   };
 
@@ -81,7 +105,6 @@ const Login = () => {
     //     Or <a href="">register now!</a>
     //   </Form.Item>
     // </Form>
-
     <div>
       <h1 style={{ textAlign: "center" }}>User Login</h1>
 

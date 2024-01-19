@@ -25,10 +25,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: (
-      // <RequireAuth>
-      <App />
-    ),
+    element: <App />,
+    // <RequireAuth>
     // </RequireAuth>
     //to reduce routes in root route we have create seperate route for specefic routes(e.g:admin)
     children: getGenratedRoutes(adminRoutes),
