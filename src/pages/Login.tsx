@@ -18,9 +18,9 @@ const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [setLogin, { isLoading, error }] = useLoginMutation();
+  const [setLogin, { isLoading, error, data }] = useLoginMutation();
   const dispatch = useAppDispatch();
-  console.log({ isLoading, error });
+  console.log({ isLoading, error, data });
   const { handleSubmit, register } = useForm({
     defaultValues: { customId: "A-0001", password: "12345678" },
   });
