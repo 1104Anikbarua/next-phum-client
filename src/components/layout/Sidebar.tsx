@@ -4,26 +4,34 @@ import { getSidebarRoutes } from "../../utlis/routes.utlis";
 import { adminRoutes } from "../../routes/admin.routes";
 import { facultyRoutes } from "../../routes/faculty.routes";
 import { studentRoutes } from "../../routes/student.routes";
+import { useAppSelector } from "../../redux/hooks";
 
 const Sidebar = () => {
+  const { user } = useAppSelector((state) => state.auth);
+
   const userRole = {
-    Admin: "admin",
-    Faculty: "faculty",
-    Student: "student",
+    Admin: "Admin",
+    Faculty: "Faculty",
+    Student: "Student",
   };
 
-  const role = "admin";
   let sideBarRoutes;
 
-  switch (role) {
+  switch (user?.role) {
     case userRole.Admin:
-      sideBarRoutes = getSidebarRoutes(adminRoutes, role);
+      sideBarRoutes = getSidebarRoutes(
+        adminRoutes,
+        userRole.Admin.toLowerCase()
+      );
       break;
     case userRole.Faculty:
-      sideBarRoutes = getSidebarRoutes(facultyRoutes, role);
+      sideBarRoutes = getSidebarRoutes(facultyRoutes, userRole.Faculty);
       break;
     case userRole.Student:
-      sideBarRoutes = getSidebarRoutes(studentRoutes, role);
+      sideBarRoutes = getSidebarRoutes(
+        studentRoutes,
+        userRole.Student.toLowerCase()
+      );
       break;
     default:
       break;
