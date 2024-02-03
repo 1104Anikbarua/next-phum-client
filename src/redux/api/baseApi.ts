@@ -7,6 +7,7 @@ import type {
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query/react";
 import { login, logout } from "../features/auth/authSlice";
+import { toast } from "sonner";
 
 // befor refactor stage-1
 const baseQuery = fetchBaseQuery({
@@ -29,6 +30,9 @@ const customBaseQuery: BaseQueryFn<
   // call the base query
   let result = await baseQuery(args, api, extraOptions);
 
+  if (result?.error?.status === 404) {
+    toast.error(result?.error?.data?.message);
+  }
   /**
    * if accesstoken expired send refresh token to the server from cookie so that a new access token is send from server
    *
