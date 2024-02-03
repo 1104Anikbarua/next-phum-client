@@ -1,9 +1,9 @@
 // import React from 'react';
 
-import { useAcademicSemesterQuery } from "../../../redux/features/academicSemester/academicSemesterApi";
+import { useGetAcademicSemestersQuery } from "../../../redux/features/admin/academicManagementApi";
 
 const AcademicSemester = () => {
-  const { data } = useAcademicSemesterQuery(undefined);
+  const { data } = useGetAcademicSemestersQuery(undefined);
 
   console.log(data);
   return <div>This is Academic semester page</div>;

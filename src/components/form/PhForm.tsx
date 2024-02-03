@@ -1,6 +1,7 @@
 import {
   FieldValues,
   FormProvider,
+  Resolver,
   SubmitHandler,
   useForm,
 } from "react-hook-form";
@@ -11,7 +12,7 @@ type TInputProps = {
   children: ReactNode;
   onSubmit: SubmitHandler<FieldValues>;
   defaultValues?: Record<string, unknown>;
-  resolver: Record<string, unknown>;
+  resolver?: Resolver;
 };
 
 const PhForm = ({

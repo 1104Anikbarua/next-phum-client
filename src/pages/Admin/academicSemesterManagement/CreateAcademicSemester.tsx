@@ -6,8 +6,8 @@ import { Button, Col, Row } from "antd";
 import PhSelect from "../../../components/form/PhSelect";
 import { monthsOptions } from "../../../constant/global";
 import { semesterNameOptions } from "../../../constant/semester";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { academicSemesterSchema } from "../../../schema/academidSemester/academicSemester.schema";
 
 const year = new Date().getFullYear();
 const yearOptions = [0, 1, 2, 3, 4, 5].map((number) => ({
@@ -28,13 +28,6 @@ const CreateAcademicSemester = () => {
     };
     console.log(semesterNameCode);
   };
-
-  const academicSemesterSchema = z.object({
-    name: z.string({ required_error: "Name is required!" }),
-    year: z.string({ required_error: "Year is required!" }),
-    startMonth: z.string({ required_error: "Start Month is required!" }),
-    endMonth: z.string({ required_error: "End Month is required!" }),
-  });
 
   //
   return (
