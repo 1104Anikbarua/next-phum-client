@@ -1,3 +1,4 @@
+import { BaseQueryApi } from "@reduxjs/toolkit/query";
 export type TError = {
   //   error:
   data: {
@@ -9,8 +10,19 @@ export type TError = {
   status: number;
 };
 
-export interface TResponse {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data?: any;
-  error?: TError;
+export interface IMeta {
+  count: number;
+  limit: number;
+  page: number;
+  totalPage: number;
 }
+
+export type TResponse<T> = {
+  data?: T;
+  error?: TError;
+  meta?: IMeta;
+  message: string;
+  success: boolean;
+};
+
+export interface IReduxResponse<T> extends TResponse<T>, BaseQueryApi {}

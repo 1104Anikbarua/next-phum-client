@@ -1,3 +1,6 @@
+import { IReduxResponse } from "../../../types";
+import { IAcademicSemester } from "../../../types/academicSemester.types";
+
 import { baseApi } from "../../api/baseApi";
 
 export const academicManagementApi = baseApi.injectEndpoints({
@@ -7,11 +10,8 @@ export const academicManagementApi = baseApi.injectEndpoints({
         url: "/academic-semesters",
         method: "GET",
       }),
-      transformResponse: (response) => {
-        const {
-          data: { result, meta },
-        } = response;
-        return { result, meta };
+      transformResponse: (response: IReduxResponse<IAcademicSemester[]>) => {
+        return { result: response.data, meta: response.meta };
       },
     }),
     //finish

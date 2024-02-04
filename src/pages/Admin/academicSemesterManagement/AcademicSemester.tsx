@@ -2,22 +2,13 @@
 
 import { Table, TableColumnsType, TableProps } from "antd";
 import { useGetAcademicSemestersQuery } from "../../../redux/features/admin/academicManagementApi";
+import { IAcademicSemester } from "../../../types/academicSemester.types";
 
-interface DataType {
-  key: React.Key;
-  name: string;
-  year: number;
-  startMonth: string;
-  endMonth: string;
-}
-
-interface IDataSource {
-  _id: string;
-  name: string;
-  year: string;
-  startMonth: string;
-  endMonth: string;
-}
+interface DataType
+  extends Pick<
+    IAcademicSemester,
+    "_id" | "name" | "year" | "startMonth" | "endMonth"
+  > {}
 
 const AcademicSemester = () => {
   const { data: academicSemesterData, isLoading } =
@@ -25,8 +16,8 @@ const AcademicSemester = () => {
 
   console.log(academicSemesterData, isLoading);
 
-  const data = academicSemesterData?.result.map(
-    ({ _id, name, year, startMonth, endMonth }: IDataSource) => ({
+  const data = academicSemesterData?.result?.map(
+    ({ _id, name, year, startMonth, endMonth }) => ({
       _id,
       name,
       year,
@@ -110,8 +101,8 @@ const AcademicSemester = () => {
       loading={isLoading}
       bordered={true}
       columns={columns}
-      dataSource={data?.map((item: IDataSource) => ({
-        key: item._id,
+      dataSource={data?.map((item) => ({
+        key: item?._id,
         ...item,
       }))}
       onChange={onChange}
