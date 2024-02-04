@@ -42,7 +42,9 @@ const PhForm = ({
         onFinish={methods.handleSubmit(onSubmit)}
         layout="vertical"
       >
-        <p>THIS IS PH FORM PAGE</p>
+        <p style={{ color: "blue", textAlign: "center", fontSize: "24px" }}>
+          THIS IS PH FORM PAGE
+        </p>
 
         {children}
       </Form>

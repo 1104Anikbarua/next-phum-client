@@ -20,9 +20,9 @@ const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [setLogin, { isLoading, error, data }] = useLoginMutation();
+  const [setLogin, { isLoading }] = useLoginMutation();
   const dispatch = useAppDispatch();
-  console.log({ isLoading, error, data });
+
   // const { handleSubmit, register } = useForm({
   //   defaultValues: { customId: "A-0001", password: "12345678" },
   // });
@@ -30,12 +30,13 @@ const Login = () => {
   const defaultValues = { customId: "A-0001", password: "12345678" };
 
   const onSubmit = async (data: FieldValues) => {
+    // toast id can be use to close this toast if other toast is on the chain
+    const toastId = toast.loading("Loading Data", {
+      duration: 2000,
+      icon: <Spin />,
+      position: "top-center",
+    });
     try {
-      const toastId = toast.loading("Loading Data", {
-        duration: 2000,
-        icon: <Spin />,
-        position: "top-center",
-      });
       const res = await setLogin(data).unwrap();
       const user = getDecodedUser(res.data.accessToken) as IUser;
       dispatch(login({ user, token: res.data.accessToken }));
@@ -55,7 +56,8 @@ const Login = () => {
       toast.error("Login failed", {
         duration: 2000,
         icon: <WarningOutlined />,
-        position: "top-center",
+        position: "bottom-right",
+        id: toastId,
       });
     }
   };

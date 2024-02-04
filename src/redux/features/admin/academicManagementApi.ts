@@ -7,6 +7,12 @@ export const academicManagementApi = baseApi.injectEndpoints({
         url: "/academic-semesters",
         method: "GET",
       }),
+      transformResponse: (response) => {
+        const {
+          data: { result, meta },
+        } = response;
+        return { result, meta };
+      },
     }),
     //finish
     addAcademicSemester: builder.mutation({

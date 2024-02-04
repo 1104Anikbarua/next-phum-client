@@ -8,6 +8,9 @@ import { monthsOptions } from "../../../constant/global";
 import { semesterNameOptions } from "../../../constant/semester";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { academicSemesterSchema } from "../../../schema/academidSemester/academicSemester.schema";
+import { useAddAcademicSemesterMutation } from "../../../redux/features/admin/academicManagementApi";
+import { toast } from "sonner";
+import { TError } from "../../../types/global";
 
 const year = new Date().getFullYear();
 const yearOptions = [0, 1, 2, 3, 4, 5].map((number) => ({
@@ -16,17 +19,31 @@ const yearOptions = [0, 1, 2, 3, 4, 5].map((number) => ({
 }));
 
 const CreateAcademicSemester = () => {
-  const onsubmit: SubmitHandler<FieldValues> = (data) => {
+  const [addAcademicSemester, { isLoading }] = useAddAcademicSemesterMutation();
+
+  //
+  const onsubmit: SubmitHandler<FieldValues> = async (data) => {
     const { value, label } = semesterNameOptions[Number(data.name) - 1];
 
-    const semesterNameCode = {
+    const semesterInfo = {
       name: label,
       semesterCode: value,
       year: data.year,
       startMonth: data.startMonth,
       endMonth: data.endMonth,
     };
-    console.log(semesterNameCode);
+    try {
+      const res = await addAcademicSemester(semesterInfo).unwrap();
+      if (res.success) {
+        toast.success(res.message);
+      }
+
+      // console.log(res);
+
+      //
+    } catch (error) {
+      toast.error((error as TError).data.message);
+    }
   };
 
   //
@@ -53,7 +70,7 @@ const CreateAcademicSemester = () => {
           />
 
           <PhSelect name="endMonth" label="End Month" options={monthsOptions} />
-          <Button htmlType="submit" block type="primary">
+          <Button htmlType="submit" block type="primary" loading={isLoading}>
             Create Semester
           </Button>
         </PhForm>
