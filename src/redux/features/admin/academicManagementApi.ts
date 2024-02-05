@@ -1,4 +1,5 @@
 import { IArgs, IReduxResponse } from "../../../types";
+import { academicDepartment } from "../../../types/academicDepartment.types";
 import { IAcademicFaculty } from "../../../types/academicFaculty.types";
 import { IAcademicSemester } from "../../../types/academicSemester.types";
 
@@ -71,6 +72,29 @@ export const academicManagementApi = baseApi.injectEndpoints({
       },
     }),
     //finish
+
+    getAcademicDepartment: builder.query({
+      query: () => {
+        return {
+          url: "/academic-departments/departments",
+          method: "GET",
+        };
+      },
+      transformResponse: (response: IReduxResponse<academicDepartment[]>) => {
+        return { result: response.data, meta: response.meta };
+      },
+    }),
+    //finish
+    addAcademicDepartment: builder.mutation({
+      query: (departmentInfo) => {
+        return {
+          url: "/academic-departments/department",
+          method: "POST",
+          body: departmentInfo,
+        };
+      },
+    }),
+    //finish
   }),
 });
 
@@ -79,4 +103,6 @@ export const {
   useAddAcademicSemesterMutation,
   useGetAcademicFacultiesQuery,
   useAddAcademicFacultyMutation,
+  useGetAcademicDepartmentQuery,
+  useAddAcademicDepartmentMutation,
 } = academicManagementApi;

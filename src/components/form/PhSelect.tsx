@@ -7,9 +7,10 @@ interface ISelectProps {
   name: string;
   label: string;
   options: { value: string; label: string; disabled?: boolean }[];
+  placeholder: string;
 }
 
-const PhSelect = ({ name, label, options }: ISelectProps) => {
+const PhSelect = ({ name, label, options, placeholder }: ISelectProps) => {
   //
   //   const handleChange = (value: string) => {
   //     console.log(`selected ${value}`);
@@ -21,6 +22,7 @@ const PhSelect = ({ name, label, options }: ISelectProps) => {
       render={({ field, fieldState: { error } }) => (
         <Form.Item label={label} required={true}>
           <Select
+            placeholder={placeholder}
             style={{ width: "100%" }}
             onChange={field.onChange}
             options={options}

@@ -56,20 +56,32 @@ const CreateAcademicSemester = () => {
         >
           {/* <PhInput name="name" type="text" label="Name"></PhInput> */}
           <PhSelect
+            placeholder="Semester Name"
             name={"name"}
             label={"Semester Name"}
             options={semesterNameOptions}
           />
 
-          <PhSelect name="year" label="Year" options={yearOptions} />
+          <PhSelect
+            placeholder="Year"
+            name="year"
+            label="Year"
+            options={yearOptions}
+          />
 
           <PhSelect
+            placeholder="Start Month"
             name="startMonth"
             label="Start Month"
             options={monthsOptions}
           />
 
-          <PhSelect name="endMonth" label="End Month" options={monthsOptions} />
+          <PhSelect
+            placeholder="End Month"
+            name="endMonth"
+            label="End Month"
+            options={monthsOptions}
+          />
           <Button htmlType="submit" block type="primary" loading={isLoading}>
             Create Semester
           </Button>

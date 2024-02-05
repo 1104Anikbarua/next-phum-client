@@ -48,7 +48,7 @@ const CreateAcademicFaculty = () => {
   //
   return (
     <Row justify={"center"} align={"middle"}>
-      <Col span={6}>
+      <Col span={8}>
         <PhForm
           onSubmit={onsubmit}
           resolver={zodResolver(academicFacultySchema)}
