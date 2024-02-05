@@ -5,9 +5,10 @@ interface IInputProps {
   type: string;
   name: string;
   label?: string;
+  placeholder: string;
 }
 
-const PhInput = ({ type, name, label }: IInputProps) => {
+const PhInput = ({ type, name, label, placeholder }: IInputProps) => {
   return (
     <div style={{ marginBottom: "20px" }}>
       {/* before refactor  */}
@@ -15,10 +16,11 @@ const PhInput = ({ type, name, label }: IInputProps) => {
 
       <Controller
         name={name}
-        render={({ field }) => (
+        render={({ field, fieldState: { error } }) => (
           // after refactor
-          <Form.Item label={label}>
-            <Input {...field} type={type} id={name} />
+          <Form.Item label={label} required>
+            <Input {...field} type={type} id={name} placeholder={placeholder} />
+            {error && <small style={{ color: "red" }}>{error.message}</small>}
           </Form.Item>
         )}
       />
