@@ -1,8 +1,8 @@
-// import React from 'react';
-
 import { Table, TableColumnsType, TableProps } from "antd";
 import { useGetAcademicSemestersQuery } from "../../../redux/features/admin/academicManagementApi";
 import { IAcademicSemester } from "../../../types/academicSemester.types";
+import { useState } from "react";
+import { IFilter } from "../../../types";
 
 interface DataType
   extends Pick<
@@ -11,10 +11,11 @@ interface DataType
   > {}
 
 const AcademicSemester = () => {
+  const [params, setParams] = useState<IFilter[] | undefined>([]);
   const { data: academicSemesterData, isLoading } =
-    useGetAcademicSemestersQuery(undefined);
+    useGetAcademicSemestersQuery(params);
 
-  console.log(academicSemesterData, isLoading);
+  // console.log(academicSemesterData, isLoading);
 
   const data = academicSemesterData?.result?.map(
     ({ _id, name, year, startMonth, endMonth }) => ({
@@ -32,26 +33,16 @@ const AcademicSemester = () => {
       dataIndex: "name",
       filters: [
         {
-          text: "Joe",
-          value: "Joe",
+          text: "Summer",
+          value: "Summer",
         },
         {
-          text: "Jim",
-          value: "Jim",
+          text: "Autumn",
+          value: "Autumn",
         },
         {
-          text: "Submenu",
-          value: "Submenu",
-          children: [
-            {
-              text: "Green",
-              value: "Green",
-            },
-            {
-              text: "Black",
-              value: "Black",
-            },
-          ],
+          text: "Fall",
+          value: "Fall",
         },
       ],
       // specify the condition of filtering result
@@ -65,20 +56,34 @@ const AcademicSemester = () => {
       dataIndex: "year",
       // defaultSortOrder: "descend",
       // sorter: (a, b) => a.age - b.age,
+      filters: [
+        {
+          text: "2024",
+          value: "2024",
+        },
+        {
+          text: "2025",
+          value: "2025",
+        },
+        {
+          text: "2026",
+          value: "2026",
+        },
+      ],
     },
     {
       title: "Start Month",
       dataIndex: "startMonth",
-      filters: [
-        {
-          text: "London",
-          value: "London",
-        },
-        {
-          text: "New York",
-          value: "New York",
-        },
-      ],
+      // filters: [
+      //   {
+      //     text: "London",
+      //     value: "London",
+      //   },
+      //   {
+      //     text: "New York",
+      //     value: "New York",
+      //   },
+      // ],
       // onFilter: (value: string, record) => record.address.indexOf(value) === 0,
     },
     {
@@ -88,12 +93,28 @@ const AcademicSemester = () => {
   ];
 
   const onChange: TableProps<DataType>["onChange"] = (
-    pagination,
+    _pagination,
     filters,
-    sorter,
+    _sorter,
     extra
   ) => {
-    console.log("params", pagination, filters, sorter, extra);
+    const queryParams: IFilter[] = [];
+    if (extra.action === "filter") {
+      filters?.name?.forEach((item) =>
+        queryParams.push({
+          name: "name",
+          value: item,
+        })
+      );
+      filters?.year?.forEach((item) =>
+        queryParams.push({
+          name: "year",
+          value: item,
+        })
+      );
+    }
+    setParams(queryParams);
+    //
   };
 
   return (

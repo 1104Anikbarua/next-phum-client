@@ -25,4 +25,10 @@ export type TResponse<T> = {
   success: boolean;
 };
 
+export interface IFilter {
+  name: string;
+  value: React.Key | boolean;
+}
+[];
+
 export interface IReduxResponse<T> extends TResponse<T>, BaseQueryApi {}

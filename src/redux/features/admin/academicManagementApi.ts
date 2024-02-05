@@ -6,10 +6,24 @@ import { baseApi } from "../../api/baseApi";
 export const academicManagementApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAcademicSemesters: builder.query({
-      query: () => ({
-        url: "/academic-semesters",
-        method: "GET",
-      }),
+      query: (args) => {
+        const params = new URLSearchParams();
+
+        // params.append(args[0]?.value, args[0]?.name);
+
+        if (args) {
+          args?.forEach((item: { name: string; value: string }) => {
+            params.append(item?.name, item?.value);
+          });
+        }
+
+        console.log(args);
+        return {
+          url: "/academic-semesters",
+          method: "GET",
+          params: params,
+        };
+      },
       transformResponse: (response: IReduxResponse<IAcademicSemester[]>) => {
         return { result: response.data, meta: response.meta };
       },
