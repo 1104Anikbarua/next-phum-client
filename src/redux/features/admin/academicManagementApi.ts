@@ -74,7 +74,12 @@ export const academicManagementApi = baseApi.injectEndpoints({
     //finish
 
     getAcademicDepartment: builder.query({
-      query: () => {
+      query: (args) => {
+        const params = new URLSearchParams();
+
+        if (args) {
+          args.forEach((item: IArgs) => params.append(item.name, item.value));
+        }
         return {
           url: "/academic-departments/departments",
           method: "GET",

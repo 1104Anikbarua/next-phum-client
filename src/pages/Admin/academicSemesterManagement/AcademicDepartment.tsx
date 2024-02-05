@@ -1,5 +1,5 @@
 import { Table, TableColumnsType, TableProps } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { useGetAcademicDepartmentQuery } from "../../../redux/features/admin/academicManagementApi";
 import { IFilter } from "../../../types";
 
@@ -11,12 +11,11 @@ interface DataType {
 //
 const AcademicDepartment = () => {
   //
+  const [param, setParams] = useState<IFilter[] | undefined>([]);
   // fetch data
-  const { data: academicDepartments } =
-    useGetAcademicDepartmentQuery(undefined);
+  const { data: academicDepartments } = useGetAcademicDepartmentQuery(param);
   //
 
-  console.log(academicDepartments);
   const columns: TableColumnsType<DataType> = [
     {
       title: "Academic Department Name",
@@ -49,6 +48,7 @@ const AcademicDepartment = () => {
         queryParams.push({ name: "name", value: item })
       );
     }
+    setParams(queryParams);
   };
 
   return (
