@@ -29,6 +29,9 @@ export interface IFilter {
   name: string;
   value: React.Key | boolean;
 }
-[];
+export interface IArgs {
+  name: string;
+  value: string;
+}
 
 export interface IReduxResponse<T> extends TResponse<T>, BaseQueryApi {}

@@ -1,4 +1,5 @@
-import { IReduxResponse } from "../../../types";
+import { IArgs, IReduxResponse } from "../../../types";
+import { IAcademicFaculty } from "../../../types/academicFaculty.types";
 import { IAcademicSemester } from "../../../types/academicSemester.types";
 
 import { baseApi } from "../../api/baseApi";
@@ -12,7 +13,7 @@ export const academicManagementApi = baseApi.injectEndpoints({
         // params.append(args[0]?.value, args[0]?.name);
 
         if (args) {
-          args?.forEach((item: { name: string; value: string }) => {
+          args?.forEach((item: IArgs) => {
             params.append(item?.name, item?.value);
           });
         }
@@ -39,11 +40,23 @@ export const academicManagementApi = baseApi.injectEndpoints({
     //finish
 
     getAcademicFaculties: builder.query({
-      query: () => {
+      query: (args) => {
+        const params = new URLSearchParams();
+
+        if (args) {
+          args.forEach((item: IArgs) => {
+            params.append(item.name, item.value);
+          });
+        }
+
         return {
           url: "/academic-faculties/faculties",
           method: "GET",
+          params: params,
         };
+      },
+      transformResponse: (response: IReduxResponse<IAcademicFaculty[]>) => {
+        return { result: response.data, meta: response.meta };
       },
     }),
     //finish

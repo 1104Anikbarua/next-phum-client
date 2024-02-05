@@ -12,12 +12,12 @@ interface DataType
 
 const AcademicSemester = () => {
   const [params, setParams] = useState<IFilter[] | undefined>([]);
-  const { data: academicSemesterData, isLoading } =
+  const { data: academicSemesters, isLoading } =
     useGetAcademicSemestersQuery(params);
 
-  // console.log(academicSemesterData, isLoading);
+  // console.log(academicSemesters, isLoading);
 
-  const data = academicSemesterData?.result?.map(
+  const data = academicSemesters?.result?.map(
     ({ _id, name, year, startMonth, endMonth }) => ({
       _id,
       name,
@@ -31,20 +31,24 @@ const AcademicSemester = () => {
     {
       title: "Name",
       dataIndex: "name",
-      filters: [
-        {
-          text: "Summer",
-          value: "Summer",
-        },
-        {
-          text: "Autumn",
-          value: "Autumn",
-        },
-        {
-          text: "Fall",
-          value: "Fall",
-        },
-      ],
+      filters: academicSemesters?.result?.map(({ name }) => ({
+        text: name,
+        value: name,
+      })),
+      // [
+      //   {
+      //     text: "Summer",
+      //     value: "Summer",
+      //   },
+      //   {
+      //     text: "Autumn",
+      //     value: "Autumn",
+      //   },
+      //   {
+      //     text: "Fall",
+      //     value: "Fall",
+      //   },
+      // ],
       // specify the condition of filtering result
       // here is that finding the name started with `value`
       // onFilter: (value: string, record) => record.name.indexOf(value) === 0,
@@ -56,20 +60,26 @@ const AcademicSemester = () => {
       dataIndex: "year",
       // defaultSortOrder: "descend",
       // sorter: (a, b) => a.age - b.age,
-      filters: [
-        {
-          text: "2024",
-          value: "2024",
-        },
-        {
-          text: "2025",
-          value: "2025",
-        },
-        {
-          text: "2026",
-          value: "2026",
-        },
-      ],
+
+      //TODO:fix key problem
+      filters: academicSemesters?.result?.map(({ year }) => ({
+        text: year,
+        value: year,
+      })),
+      //[
+      //   {
+      //     text: "2024",
+      //     value: "2024",
+      //   },
+      //   {
+      //     text: "2025",
+      //     value: "2025",
+      //   },
+      //   {
+      //     text: "2026",
+      //     value: "2026",
+      //   },
+      // ],
     },
     {
       title: "Start Month",

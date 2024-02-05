@@ -23,7 +23,6 @@ const CreateAcademicFaculty = () => {
     try {
       //
       const res = await addAcademicFaculty(data).unwrap();
-
       if (res?.success) {
         toast.success(res?.message, {
           position: "top-center",
@@ -33,8 +32,6 @@ const CreateAcademicFaculty = () => {
       }
       //
     } catch (error) {
-      //
-      console.log(error);
       //
       toast.error("Academic Faculty Creation Fail", {
         position: "top-center",
