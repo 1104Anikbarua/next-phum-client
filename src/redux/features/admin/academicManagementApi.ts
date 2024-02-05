@@ -19,7 +19,6 @@ export const academicManagementApi = baseApi.injectEndpoints({
           });
         }
 
-        console.log(args);
         return {
           url: "/academic-semesters",
           method: "GET",

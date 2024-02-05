@@ -13,7 +13,8 @@ const AcademicDepartment = () => {
   //
   const [param, setParams] = useState<IFilter[] | undefined>([]);
   // fetch data
-  const { data: academicDepartments } = useGetAcademicDepartmentQuery(param);
+  const { data: academicDepartments, isFetching } =
+    useGetAcademicDepartmentQuery(param);
   //
 
   const columns: TableColumnsType<DataType> = [
@@ -53,6 +54,7 @@ const AcademicDepartment = () => {
 
   return (
     <Table
+      loading={isFetching}
       columns={columns}
       dataSource={academicDepartments?.result?.map(
         ({
