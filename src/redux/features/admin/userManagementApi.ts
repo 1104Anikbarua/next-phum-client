@@ -10,11 +10,13 @@ const userManagementApi = baseApi.injectEndpoints({
     }),
     //finish
     addStudent: builder.mutation({
-      query: (studentInfo) => ({
-        url: "/user/create-student",
-        method: "POST",
-        body: studentInfo,
-      }),
+      query: (data) => {
+        return {
+          url: "/user/create-student",
+          method: "POST",
+          body: data,
+        };
+      },
     }),
     //finish
   }),

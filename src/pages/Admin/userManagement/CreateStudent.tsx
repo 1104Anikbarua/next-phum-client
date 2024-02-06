@@ -1,7 +1,7 @@
-import { Button, Col, Divider, Row } from "antd";
+import { Button, Col, Divider, Form, Input, Row } from "antd";
 import PhForm from "../../../components/form/PhForm";
 import PhInput from "../../../components/form/PhInput";
-import { FieldValues } from "react-hook-form";
+import { Controller, FieldValues } from "react-hook-form";
 import { useAddStudentMutation } from "../../../redux/features/admin/userManagementApi";
 import PhSelect from "../../../components/form/PhSelect";
 import PhDate from "../../../components/form/PhDate";
@@ -11,6 +11,7 @@ import {
 } from "../../../redux/features/admin/academicManagementApi";
 import { bloodGroupsOptions, gendersOptions } from "../../../constant/global";
 import PhInputNumber from "../../../components/form/PhInputNumber";
+// import { toast } from "sonner";
 //
 const CreateStudent = () => {
   //
@@ -34,12 +35,43 @@ const CreateStudent = () => {
   const [addStudent, { isLoading }] = useAddStudentMutation();
   //
 
-  const onsubmit = (data: FieldValues) => {
+  const onsubmit = async (data: FieldValues) => {
     //
-    console.log(addStudent);
-    console.log(data);
+    const studentInfo = {
+      student: data,
+    };
     //
-    // const formData = new FormData();
+    const formData = new FormData();
+
+    formData.append("data", JSON.stringify(studentInfo));
+    formData.append("file", data.profileImage);
+
+    addStudent(formData);
+    //
+    // const id = toast.loading("Register Student", {
+    //   position: "top-center",
+    //   duration: 2000,
+    // });
+
+    // try {
+    //   const res = await addStudent(formData).unwrap();
+    //   if (res.success) {
+    //     toast.success("Student created sucessfully", {
+    //       id,
+    //       position: "top-center",
+    //       duration: 2000,
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    //   toast.error("Fail fails fails", {
+    //     id,
+    //     position: "top-center",
+    //     duration: 2000,
+    //   });
+    // }
+
+    //
     // formData.append("name", "value");
     // console.log(formData.get("name")); //return value
     // console.log([...formData.values()]); // return ["value"]
@@ -170,6 +202,22 @@ const CreateStudent = () => {
                 name={"bloodGroup"}
                 key={"bloodgroup"}
                 options={bloodGroupsOptions}
+              />
+            </Col>
+            <Col span={24} sm={{ span: 12 }} md={{ span: 12 }} lg={{ span: 8 }}>
+              <Controller
+                name="profileImage"
+                render={({ field: { onChange, value, ...field } }) => (
+                  <Form.Item label="Profile Image">
+                    <Input
+                      value={value?.fileName}
+                      {...field}
+                      onChange={(e) => onChange(e.target?.files?.[0])}
+                      placeholder="Image"
+                      type="file"
+                    />
+                  </Form.Item>
+                )}
               />
             </Col>
           </Row>
@@ -354,7 +402,7 @@ const CreateStudent = () => {
               />
             </Col>
           </Row>
-
+          {/* Submit Button */}
           <Row justify={"end"}>
             <Button
               htmlType="submit"
