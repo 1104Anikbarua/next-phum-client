@@ -3,4 +3,5 @@ export interface IAcademicFaculty {
   createdAt: Date;
   updatedAt: Date;
   name: string;
+  __v: number;
 }

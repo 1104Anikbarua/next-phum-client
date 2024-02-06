@@ -1,5 +1,5 @@
 import { IArgs, IReduxResponse } from "../../../types";
-import { academicDepartment } from "../../../types/academicDepartment.types";
+import { IAcademicDepartment } from "../../../types/academicDepartment.types";
 import { IAcademicFaculty } from "../../../types/academicFaculty.types";
 import { IAcademicSemester } from "../../../types/academicSemester.types";
 
@@ -84,7 +84,7 @@ export const academicManagementApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      transformResponse: (response: IReduxResponse<academicDepartment[]>) => {
+      transformResponse: (response: IReduxResponse<IAcademicDepartment[]>) => {
         return { result: response.data, meta: response.meta };
       },
     }),

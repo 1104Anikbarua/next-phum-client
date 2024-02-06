@@ -7,4 +7,5 @@ export interface IAcademicSemester {
   endMonth: string;
   createdAt: string;
   updatedAt: string;
+  __v?: number;
 }

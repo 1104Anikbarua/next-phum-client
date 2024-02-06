@@ -1,8 +1,8 @@
-export interface academicDepartment {
+export interface IAcademicDepartment {
   _id: string;
   name: string;
   createdAt: Date;
   updatedAt: Date;
-  __v: number;
-  academicFaculty: academicDepartment;
+  academicFaculty: IAcademicDepartment;
+  __v?: number;
 }

@@ -1,12 +1,22 @@
+import { IReduxResponse } from "../../../types";
+import { IStudent } from "../../../types/student.types";
 import { baseApi } from "../../api/baseApi";
 
 const userManagementApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getStudents: builder.query({
-      query: () => ({
-        url: "/user/get-me",
-        method: "GET",
-      }),
+      query: (param) => {
+        return {
+          url: "/student/query",
+          method: "GET",
+          params: param,
+        };
+      },
+      transformResponse: (response: IReduxResponse<IStudent[]>) => {
+        // console.log(response);
+
+        return { response: response.data, meta: response.meta };
+      },
     }),
     //finish
     addStudent: builder.mutation({
