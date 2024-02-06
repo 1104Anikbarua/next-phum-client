@@ -1,7 +1,7 @@
 // import React from 'react';
 // import { LockOutlined, UserOutlined } from "@ant-design/icons";
 // import { Button, Checkbox, Form, Input } from "antd";
-import { Button, Row, Spin } from "antd";
+import { Button, Col, Row, Spin } from "antd";
 import { FieldValues } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
@@ -64,13 +64,25 @@ const Login = () => {
 
   return (
     <Row justify={"center"} align={"middle"} style={{ height: "100vh" }}>
-      <PhForm onSubmit={onSubmit} defaultValues={defaultValues}>
-        <PhInput name={"customId"} type={"text"} label={"Id"} />
-        <PhInput name={"password"} type={"text"} label={"Password"} />
-        <Button htmlType="submit" type="primary" block>
-          {isLoading ? <Spin /> : "Submit"}
-        </Button>
-      </PhForm>
+      <Col span={8}>
+        <PhForm onSubmit={onSubmit} defaultValues={defaultValues}>
+          <PhInput
+            name={"customId"}
+            type={"text"}
+            label={"Id"}
+            placeholder={"Please provide your id"}
+          />
+          <PhInput
+            name={"password"}
+            type={"text"}
+            label={"Password"}
+            placeholder={"Please provide your password"}
+          />
+          <Button htmlType="submit" type="primary" block loading={isLoading}>
+            Login
+          </Button>
+        </PhForm>
+      </Col>
     </Row>
   );
 };

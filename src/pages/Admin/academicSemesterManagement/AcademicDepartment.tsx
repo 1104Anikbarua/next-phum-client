@@ -55,6 +55,7 @@ const AcademicDepartment = () => {
   return (
     <Table
       loading={isFetching}
+      bordered={true}
       columns={columns}
       dataSource={academicDepartments?.result?.map(
         ({

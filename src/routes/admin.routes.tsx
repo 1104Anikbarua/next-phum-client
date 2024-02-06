@@ -2,8 +2,8 @@
 // import { NavLink } from "react-router-dom";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import CreateAdmin from "../pages/Admin/CreateAdmin";
-import CreateFaculty from "../pages/Admin/CreateFaculty";
-import CreateStudent from "../pages/Admin/CreateStudent";
+import CreateFaculty from "../pages/Admin/userManagement/CreateFaculty";
+import CreateStudent from "../pages/Admin/userManagement/CreateStudent";
 import AcademicDepartment from "../pages/Admin/academicSemesterManagement/AcademicDepartment";
 import AcademicFaculty from "../pages/Admin/academicSemesterManagement/AcademicFaculty";
 import AcademicSemester from "../pages/Admin/academicSemesterManagement/AcademicSemester";

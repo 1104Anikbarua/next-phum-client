@@ -1,13 +1,14 @@
 // import React from "react";
+// import { z } from "zod";
 import PhForm from "../../../components/form/PhForm";
 import { Button, Col, Row } from "antd";
 import PhInput from "../../../components/form/PhInput";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAddAcademicFacultyMutation } from "../../../redux/features/admin/academicManagementApi";
 import { toast } from "sonner";
 import { StarOutlined } from "@ant-design/icons";
+import { academicFacultySchema } from "../../../schema/academicFaculty/academicFaculty.schema";
 
 const CreateAcademicFaculty = () => {
   //
@@ -42,9 +43,7 @@ const CreateAcademicFaculty = () => {
   };
   //
   //
-  const academicFacultySchema = z.object({
-    name: z.string({ required_error: "Faculty Name is required" }),
-  });
+
   //
   return (
     <Row justify={"center"} align={"middle"}>

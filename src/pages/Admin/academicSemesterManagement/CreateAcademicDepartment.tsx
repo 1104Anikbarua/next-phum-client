@@ -1,8 +1,8 @@
 // import React from "react";
+// import { z } from "zod";
 import { Button, Col, Row } from "antd";
 import PhForm from "../../../components/form/PhForm";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PhInput from "../../../components/form/PhInput";
 import PhSelect from "../../../components/form/PhSelect";
@@ -11,6 +11,7 @@ import {
   useGetAcademicFacultiesQuery,
 } from "../../../redux/features/admin/academicManagementApi";
 import { toast } from "sonner";
+import { academicDepartmentSchema } from "../../../schema/academicDepartment/academicDepartment.schema";
 
 const CreateAcademicDepartment = () => {
   //
@@ -47,12 +48,6 @@ const CreateAcademicDepartment = () => {
     }
   };
 
-  const academicDepartmentSchema = z.object({
-    name: z.string({ required_error: "Name is required!" }),
-    academicFaculty: z.string({
-      required_error: "Academic faculty is required!",
-    }),
-  });
   return (
     <Row justify={"center"} align={"bottom"}>
       <Col span={8}>

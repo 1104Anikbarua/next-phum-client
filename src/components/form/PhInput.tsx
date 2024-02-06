@@ -1,7 +1,7 @@
 import { Form, Input } from "antd";
 import { Controller } from "react-hook-form";
 
-interface IInputProps {
+export interface IInputProps {
   type: string;
   name: string;
   label?: string;
@@ -19,7 +19,13 @@ const PhInput = ({ type, name, label, placeholder }: IInputProps) => {
         render={({ field, fieldState: { error } }) => (
           // after refactor
           <Form.Item label={label} required>
-            <Input {...field} type={type} id={name} placeholder={placeholder} />
+            <Input
+              {...field}
+              id={name}
+              placeholder={placeholder}
+              // type={type}
+              type={type}
+            />
             {error && <small style={{ color: "red" }}>{error.message}</small>}
           </Form.Item>
         )}

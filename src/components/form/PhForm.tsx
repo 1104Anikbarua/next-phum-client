@@ -31,7 +31,13 @@ const PhForm = ({
     formConfig["resolver"] = resolver;
   }
   const methods = useForm(formConfig);
+  //
 
+  // way-1
+  const onsubmit = (data: FieldValues) => {
+    onSubmit(data), methods.reset();
+  };
+  //
   return (
     <FormProvider {...methods}>
       <Form
@@ -39,8 +45,16 @@ const PhForm = ({
         // before refactor
         // onSubmit={methods.handleSubmit(onSubmit)}
         // after refactor
-        onFinish={methods.handleSubmit(onSubmit)}
+        // way-2
+        // onFinish={methods.handleSubmit((values) => {
+        //   onSubmit(values), methods.reset();
+        // })}
+
+        // before refactor
+        // onFinish={methods.handleSubmit(onSubmit)}
         layout="vertical"
+        // way-3
+        onFinish={methods.handleSubmit(onsubmit)}
       >
         <p style={{ color: "blue", textAlign: "center", fontSize: "24px" }}>
           THIS IS PH FORM PAGE
