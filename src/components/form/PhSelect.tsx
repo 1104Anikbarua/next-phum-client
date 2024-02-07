@@ -19,14 +19,21 @@ const PhSelect = ({
   disabled,
 }: ISelectProps) => {
   //
-  //   const handleChange = (value: string) => {
-  //     console.log(`selected ${value}`);
-  //   };
+  // value={
+  //   // not work if select change
+  //   // eslint-disable-next-line no-constant-condition
+  //   (field?.name === "admissionSemester" &&
+  //     `${field?.value?.name} ${field?.value?.year}`) ||
+  //   (field?.name === "academicDepartment"
+  //     ? field?.value?.name
+  //     : field?.value)
+  // }
 
   return (
     <Controller
       name={name}
       render={({ field, fieldState: { error } }) => (
+        // console.log(field),
         <Form.Item label={label} required={true}>
           <Select
             placeholder={placeholder}
@@ -36,8 +43,17 @@ const PhSelect = ({
             // onChange={field.onChange}
             // after refactor
             onChange={field.onChange}
-            value={field.value}
+            value={field?.value}
             options={options}
+            defaultValue={
+              // not work if select change
+              // eslint-disable-next-line no-constant-condition
+              (field?.name === "admissionSemester" &&
+                `${field?.value?.name} ${field?.value?.year}`) ||
+              (field?.name === "academicDepartment"
+                ? field?.value?.name
+                : field?.value)
+            }
             disabled={disabled}
           />
           {error && <small style={{ color: "red" }}>{error.message}</small>}

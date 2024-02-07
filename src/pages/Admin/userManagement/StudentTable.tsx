@@ -10,6 +10,7 @@ import {
 import React, { useState } from "react";
 import { useGetStudentsQuery } from "../../../redux/features/admin/userManagementApi";
 import { IFilter } from "../../../types";
+import { useNavigate } from "react-router-dom";
 
 interface DataType {
   key: React.Key;
@@ -29,58 +30,26 @@ const StudentTable = () => {
     ...param,
   ]);
 
-  const students = data?.response?.map(({ _id, customId, name }) => ({
-    key: _id,
-    customId,
-    fullName: `${name?.firstName} ${name?.middleName} ${name?.lastName}`,
-  }));
+  // console.log(data);
+
+  const students = data?.response?.map(
+    ({ _id, customId, name, email, contactNo }) => ({
+      key: _id,
+      customId,
+      fullName: `${name?.firstName} ${name?.middleName} ${name?.lastName}`,
+      email,
+      contactNo,
+    })
+  );
   const meta = data?.meta;
 
+  const navigate = useNavigate();
   //
   const columns: TableColumnsType<DataType> = [
     {
       title: "Name",
       dataIndex: "fullName",
       align: "center",
-      // filters: [{ text: "", value: "" }],
-      //   filters: [
-      //     {
-      //       text: "Joe",
-      //       value: "Joe",
-      //     },
-      //     {
-      //       text: "Category 1",
-      //       value: "Category 1",
-      //       children: [
-      //         {
-      //           text: "Yellow",
-      //           value: "Yellow",
-      //         },
-      //         {
-      //           text: "Pink",
-      //           value: "Pink",
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       text: "Category 2",
-      //       value: "Category 2",
-      //       children: [
-      //         {
-      //           text: "Green",
-      //           value: "Green",
-      //         },
-      //         {
-      //           text: "Black",
-      //           value: "Black",
-      //         },
-      //       ],
-      //     },
-      //   ],
-      //   filterMode: "tree",
-      //   filterSearch: true,
-      //   onFilter: (value: string, record) => record.name.includes(value),
-      //   width: "30%",
     },
     {
       title: "Roll No",
@@ -88,13 +57,19 @@ const StudentTable = () => {
       align: "center",
       //   sorter: (a, b) => a.age - b.age,
     },
+    { title: "Email", dataIndex: "email", align: "center" },
+    { title: "Contact No", dataIndex: "contactNo", align: "center" },
     {
       title: "Action",
-      dataIndex: "action",
+      dataIndex: "",
       align: "center",
-      render: () => (
+      render: (value) => (
         <Space>
-          <Button htmlType="button" type="primary">
+          <Button
+            htmlType="button"
+            type="primary"
+            onClick={() => navigate(`/admin/student/${value.customId}`)}
+          >
             Update
           </Button>
           <Button htmlType="button" type="default">
@@ -105,18 +80,6 @@ const StudentTable = () => {
           </Button>
         </Space>
       ),
-      // filters: [
-      //     {
-      //       text: "London",
-      //       value: "London",
-      //     },
-      //     {
-      //       text: "New York",
-      //       value: "New York",
-      //     },
-      //   ],
-      //   onFilter: (value: string, record) => record.address.startsWith(value),
-      //   filterSearch: true,
       width: "1%",
     },
   ];

@@ -11,6 +11,7 @@ import CreateAcademicDepartment from "../pages/Admin/academicSemesterManagement/
 import CreateAcademicFaculty from "../pages/Admin/academicSemesterManagement/CreateAcademicFaculty";
 import CreateAcademicSemester from "../pages/Admin/academicSemesterManagement/CreateAcademicSemester";
 import StudentTable from "../pages/Admin/userManagement/StudentTable";
+import UpdateStudent from "../pages/Admin/userManagement/UpdateStudent";
 
 export const adminRoutes = [
   {
@@ -32,16 +33,6 @@ export const adminRoutes = [
         element: <AcademicSemester />,
       },
       {
-        name: "Create-AD-Department",
-        path: "create-ad-department",
-        element: <CreateAcademicDepartment />,
-      },
-      {
-        name: "Academic Department",
-        path: "academic-department",
-        element: <AcademicDepartment />,
-      },
-      {
         name: "Create-AD-Faculty",
         path: "create-ad-faculty",
         element: <CreateAcademicFaculty />,
@@ -50,6 +41,16 @@ export const adminRoutes = [
         name: "Academic Faculty",
         path: "academic-faculty",
         element: <AcademicFaculty />,
+      },
+      {
+        name: "Create-AD-Department",
+        path: "create-ad-department",
+        element: <CreateAcademicDepartment />,
+      },
+      {
+        name: "Academic Department",
+        path: "academic-department",
+        element: <AcademicDepartment />,
       },
     ],
   },
@@ -75,6 +76,11 @@ export const adminRoutes = [
         name: "Create-Faculty",
         path: "create-faculty",
         element: <CreateFaculty />,
+      },
+      {
+        // name: "Update Student",
+        path: "student/:studentId",
+        element: <UpdateStudent />,
       },
     ],
   },

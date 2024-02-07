@@ -37,6 +37,7 @@ const CreateStudent = () => {
 
   const onsubmit = async (data: FieldValues) => {
     //
+    console.log(data);
     const studentInfo = {
       student: data,
     };
@@ -88,14 +89,14 @@ const CreateStudent = () => {
     },
     age: 30,
     gender: "Male",
-    dateOfBirth: "01.01.2000",
+    dateOfBirth: "07-02-2022",
     bloodGroup: "A+",
     profileImage: "",
     //
     // contact info
-    email: "teacheronenumber@example.com",
-    contactNo: "01800000000",
-    emergencyContactNo: "01801010101",
+    email: "student1@example.com",
+    contactNo: "01811000001",
+    emergencyContactNo: "01821000001",
     presentAddress: "a/z plaza,tv tower, flat-12",
     permanentAddress: "xy/z avenue,xv tower, flat-12",
     //
@@ -117,8 +118,8 @@ const CreateStudent = () => {
     },
     //
     // academic info
-    admissionSemester: "65ba53406b52a7eb4db0a8a5",
-    academicDepartment: "65ba5f20e325552d0c88aad8",
+    admissionSemester: "65c375021282ccf03ff26d41",
+    academicDepartment: "65c376581282ccf03ff26d77",
   };
   return (
     <Row

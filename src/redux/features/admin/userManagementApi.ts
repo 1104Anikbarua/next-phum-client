@@ -12,7 +12,7 @@ const userManagementApi = baseApi.injectEndpoints({
             param.append(element.name, element.value)
           );
         }
-        console.log(args);
+        // console.log(args);
         return {
           url: "/student/query",
           method: "GET",
@@ -24,6 +24,17 @@ const userManagementApi = baseApi.injectEndpoints({
 
         return { response: response.data, meta: response.meta };
       },
+      providesTags: ["student"],
+    }),
+    //finish
+    getStudent: builder.query({
+      query: (query) => {
+        return {
+          url: `/student/${query}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["student"],
     }),
     //finish
     addStudent: builder.mutation({
@@ -34,9 +45,26 @@ const userManagementApi = baseApi.injectEndpoints({
           body: data,
         };
       },
+      // invalidatesTags: ["student"],
+    }),
+    //finish
+    setStudent: builder.mutation({
+      query: ({ customId, ...studentUpdatedInfo }) => {
+        return {
+          url: `/student/${customId}`,
+          method: "PATCH",
+          body: studentUpdatedInfo,
+        };
+      },
+      invalidatesTags: ["student"],
     }),
     //finish
   }),
 });
 
-export const { useAddStudentMutation, useGetStudentsQuery } = userManagementApi;
+export const {
+  useAddStudentMutation,
+  useGetStudentsQuery,
+  useGetStudentQuery,
+  useSetStudentMutation,
+} = userManagementApi;

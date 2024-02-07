@@ -14,9 +14,7 @@ interface IDateProps {
 
 const PhDate = ({ name, placeholder, label }: IDateProps) => {
   //
-  //   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-  //     console.log(date, dateString);
-  //   };
+  //  const dateFormat = "YYYY-MM-DD";
 
   return (
     <Controller
@@ -25,8 +23,7 @@ const PhDate = ({ name, placeholder, label }: IDateProps) => {
         <Form.Item label={label}>
           <DatePicker
             style={{ width: "100%" }}
-            format={"DD/MM/YYYY"}
-            onChange={field.onChange}
+            onChange={(_, dateString) => field.onChange(dateString)}
             placeholder={placeholder}
           />
         </Form.Item>
