@@ -10,7 +10,7 @@ import {
 import React, { useState } from "react";
 import { useGetStudentsQuery } from "../../../redux/features/admin/userManagementApi";
 import { IFilter } from "../../../types";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface DataType {
   key: React.Key;
@@ -65,6 +65,11 @@ const StudentTable = () => {
       align: "center",
       render: (value) => (
         <Space>
+          <Link to={`/admin/student-details/${value.customId}`}>
+            <Button htmlType="submit" type="primary">
+              Details
+            </Button>
+          </Link>
           <Button
             htmlType="button"
             type="primary"

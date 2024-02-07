@@ -12,11 +12,13 @@ export type TRoute = {
   element: ReactNode;
 };
 
-export type TSidebarRoute = {
-  key: string;
-  label: ReactNode;
-  children?: TSidebarRoute[];
-};
+export type TSidebarRoute =
+  | {
+      key: string;
+      label: ReactNode;
+      children?: TSidebarRoute[];
+    }
+  | undefined;
 
 // type for those component that recive only reactnode as children
 export interface IChildren {

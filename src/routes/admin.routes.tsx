@@ -12,6 +12,7 @@ import CreateAcademicFaculty from "../pages/Admin/academicSemesterManagement/Cre
 import CreateAcademicSemester from "../pages/Admin/academicSemesterManagement/CreateAcademicSemester";
 import StudentTable from "../pages/Admin/userManagement/StudentTable";
 import UpdateStudent from "../pages/Admin/userManagement/UpdateStudent";
+import StudentDetails from "../pages/Admin/userManagement/StudentDetails";
 
 export const adminRoutes = [
   {
@@ -81,6 +82,11 @@ export const adminRoutes = [
         // name: "Update Student",
         path: "student/:studentId",
         element: <UpdateStudent />,
+      },
+      {
+        // name: "Update Student",
+        path: "student-details/:studentId",
+        element: <StudentDetails />,
       },
     ],
   },

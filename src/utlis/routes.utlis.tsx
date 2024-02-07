@@ -36,10 +36,18 @@ export const getSidebarRoutes = (items: TItems[], role: string) => {
       previous.push({
         key: current?.name,
         label: current?.name,
-        children: current?.children?.map((child) => ({
-          key: child.name,
-          label: <NavLink to={`/${role}/${child.path}`}>{child?.name}</NavLink>,
-        })),
+        children: current?.children?.map((child) => {
+          if (child?.name) {
+            return {
+              key: child.name,
+              label: (
+                <NavLink to={`/${role}/${child.path}`}>{child?.name}</NavLink>
+              ),
+            };
+          }
+        }),
+
+        //
       });
     }
     return previous;
