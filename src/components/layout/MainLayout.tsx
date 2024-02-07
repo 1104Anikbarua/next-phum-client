@@ -92,10 +92,6 @@ const MainLayout = () => {
               // borderRadius: borderRadiusLG,
             }}
           >
-            <h1 style={{ fontSize: "20px", color: "blue" }}>
-              This is where we have to show our content
-            </h1>
-
             <Outlet />
           </div>
         </Content>

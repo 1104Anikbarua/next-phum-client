@@ -1,11 +1,18 @@
-import { IReduxResponse } from "../../../types";
+import { IArgs, IReduxResponse } from "../../../types";
 import { IStudent } from "../../../types/student.types";
 import { baseApi } from "../../api/baseApi";
 
 const userManagementApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getStudents: builder.query({
-      query: (param) => {
+      query: (args) => {
+        const param = new URLSearchParams();
+        if (args) {
+          args.forEach((element: IArgs) =>
+            param.append(element.name, element.value)
+          );
+        }
+        console.log(args);
         return {
           url: "/student/query",
           method: "GET",

@@ -1,6 +1,15 @@
-import { Button, Space, Table, TableColumnsType, TableProps } from "antd";
-import React from "react";
+import {
+  Button,
+  Pagination,
+  Row,
+  Space,
+  Table,
+  TableColumnsType,
+  TableProps,
+} from "antd";
+import React, { useState } from "react";
 import { useGetStudentsQuery } from "../../../redux/features/admin/userManagementApi";
+import { IFilter } from "../../../types";
 
 interface DataType {
   key: React.Key;
@@ -9,19 +18,31 @@ interface DataType {
 }
 const StudentTable = () => {
   //
-  const { data, isFetching } = useGetStudentsQuery(undefined);
+  const [param, setParams] = useState<IFilter[]>([]);
+  const [page, setPages] = useState(1);
+  const [limit, setLimits] = useState(10);
+
+  const { data, isFetching } = useGetStudentsQuery([
+    { name: "page", value: page },
+    { name: "limit", value: limit },
+    { name: "sort", value: "-customId" },
+    ...param,
+  ]);
 
   const students = data?.response?.map(({ _id, customId, name }) => ({
     key: _id,
     customId,
-    fullName: `${name.firstName} ${name.middleName} ${name.lastName}`,
+    fullName: `${name?.firstName} ${name?.middleName} ${name?.lastName}`,
   }));
+  const meta = data?.meta;
+
   //
   const columns: TableColumnsType<DataType> = [
     {
       title: "Name",
       dataIndex: "fullName",
       align: "center",
+      // filters: [{ text: "", value: "" }],
       //   filters: [
       //     {
       //       text: "Joe",
@@ -100,50 +121,44 @@ const StudentTable = () => {
     },
   ];
 
-  //   const data: DataType[] = [
-  //     {
-  //       key: "1",
-  //       name: "John Brown",
-  //       age: 32,
-  //       address: "New York No. 1 Lake Park",
-  //     },
-  //     {
-  //       key: "2",
-  //       name: "Jim Green",
-  //       age: 42,
-  //       address: "London No. 1 Lake Park",
-  //     },
-  //     {
-  //       key: "3",
-  //       name: "Joe Black",
-  //       age: 32,
-  //       address: "Sydney No. 1 Lake Park",
-  //     },
-  //     {
-  //       key: "4",
-  //       name: "Jim Red",
-  //       age: 32,
-  //       address: "London No. 2 Lake Park",
-  //     },
-  //   ];
-
   const onChange: TableProps<DataType>["onChange"] = (
-    pagination,
+    _pagination,
     filters,
-    sorter,
+    _sorter,
     extra
   ) => {
-    console.log("params", pagination, filters, sorter, extra);
+    const queryParams: IFilter[] = [];
+    if (extra.action === "filter") {
+      filters.fullName?.forEach((element) =>
+        queryParams.push({
+          name: "name",
+          value: element,
+        })
+      );
+    }
+    setParams(queryParams);
   };
 
   return (
-    <Table
-      bordered={true}
-      loading={isFetching}
-      columns={columns}
-      dataSource={students}
-      onChange={onChange}
-    />
+    <>
+      <Table
+        bordered={true}
+        loading={isFetching}
+        columns={columns}
+        dataSource={students}
+        onChange={onChange}
+        pagination={false}
+      />
+      <Row justify={"center"}>
+        <Pagination
+          total={meta?.count}
+          current={page}
+          onChange={(value) => setPages(value)}
+          showSizeChanger
+          onShowSizeChange={(_, newPageSize) => setLimits(newPageSize)}
+        />
+      </Row>
+    </>
   );
 };
 
