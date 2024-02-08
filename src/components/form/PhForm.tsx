@@ -34,8 +34,8 @@ const PhForm = ({
   //
 
   // way-1
-  const onsubmit = (data: FieldValues) => {
-    onSubmit(data), methods.reset();
+  const onsubmit = async (data: FieldValues) => {
+    await onSubmit(data), methods.reset();
   };
   //
   return (
@@ -52,7 +52,7 @@ const PhForm = ({
 
         // before refactor
         // onFinish={methods.handleSubmit(onSubmit)}
-        layout="vertical"
+        layout="vertical" //input align one after another
         // way-3
         onFinish={methods.handleSubmit(onsubmit)}
       >

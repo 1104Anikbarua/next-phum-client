@@ -37,7 +37,6 @@ const CreateStudent = () => {
 
   const onsubmit = async (data: FieldValues) => {
     //
-    console.log(data);
     const studentInfo = {
       student: data,
     };

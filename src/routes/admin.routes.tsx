@@ -13,6 +13,9 @@ import CreateAcademicSemester from "../pages/Admin/academicSemesterManagement/Cr
 import StudentTable from "../pages/Admin/userManagement/StudentTable";
 import UpdateStudent from "../pages/Admin/userManagement/UpdateStudent";
 import StudentDetails from "../pages/Admin/userManagement/StudentDetails";
+import SemesterRegistration from "../pages/Admin/courseManagement/SemesterRegistration";
+import OfferedCourse from "../pages/Admin/courseManagement/OfferedCourse";
+import CreateCourse from "../pages/Admin/courseManagement/CreateCourse";
 
 export const adminRoutes = [
   {
@@ -87,6 +90,26 @@ export const adminRoutes = [
         // name: "Update Student",
         path: "student-details/:studentId",
         element: <StudentDetails />,
+      },
+    ],
+  },
+  {
+    name: "Course Management",
+    children: [
+      {
+        name: "Register Semester",
+        path: "register-semester",
+        element: <SemesterRegistration />,
+      },
+      {
+        name: "Create Course",
+        path: "create-course",
+        element: <CreateCourse />,
+      },
+      {
+        name: "Offered Course",
+        path: "offered-course",
+        element: <OfferedCourse />,
       },
     ],
   },

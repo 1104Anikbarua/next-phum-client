@@ -19,7 +19,7 @@ const PhInputNumber = ({
       <Controller
         name={name}
         render={({ field, fieldState: { error } }) => (
-          <Form.Item label={label}>
+          <Form.Item label={label} required>
             <InputNumber
               style={{ width: "100%" }}
               onChange={field.onChange}
@@ -28,6 +28,7 @@ const PhInputNumber = ({
               id={name}
               type={type}
               wheel={false}
+              disabled={field.value < 1}
             />
             {error && <small style={{ color: "red" }}>{error.message}</small>}
           </Form.Item>

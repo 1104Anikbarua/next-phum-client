@@ -27,7 +27,7 @@ const UserModal = ({
   const handleChangeStatus = async () => {
     const userIdStatus = { studentId, status };
     //
-    console.log(userIdStatus);
+    // console.log(userIdStatus);
     const id = toast.loading("Blocking Student", { position: "top-center" });
     try {
       const res = await blockStudent(userIdStatus).unwrap();
@@ -51,6 +51,7 @@ const UserModal = ({
           handleChangeStatus(), setisModalOpen(false);
         }}
         onCancel={() => setisModalOpen(false)}
+        confirmLoading={isLoading}
       ></Modal>
     </>
   );
