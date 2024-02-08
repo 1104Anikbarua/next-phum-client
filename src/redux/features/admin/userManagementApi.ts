@@ -59,6 +59,19 @@ const userManagementApi = baseApi.injectEndpoints({
       invalidatesTags: ["student"],
     }),
     //finish
+    setStatus: builder.mutation({
+      query: ({ _id, status }) => {
+        //
+        //
+        console.log(status);
+        return {
+          url: `/user/${_id}/change-status`,
+          method: "POST",
+          body: status,
+        };
+      },
+      invalidatesTags: ["student"],
+    }),
   }),
 });
 
@@ -67,4 +80,5 @@ export const {
   useGetStudentsQuery,
   useGetStudentQuery,
   useSetStudentMutation,
+  useSetStatusMutation,
 } = userManagementApi;
