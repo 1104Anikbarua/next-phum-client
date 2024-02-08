@@ -8,13 +8,10 @@ import {
   TableProps,
 } from "antd";
 import React, { useState } from "react";
-import {
-  useGetStudentsQuery,
-  useSetStatusMutation,
-} from "../../../redux/features/admin/userManagementApi";
+import { useGetStudentsQuery } from "../../../redux/features/admin/userManagementApi";
 import { IFilter } from "../../../types";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "sonner";
+import UserModal from "../../../components/modal/Modal";
 
 interface DataType {
   key: React.Key;
@@ -27,6 +24,10 @@ const StudentTable = () => {
   const [page, setPages] = useState(1);
   const [limit, setLimits] = useState(10);
   const [isModalOpen, setisModalOpen] = useState(false);
+  const [studentId, setStudentId] = useState("");
+  const [status, setStatus] = useState({
+    status: "",
+  });
 
   const { data, isFetching } = useGetStudentsQuery([
     { name: "page", value: page },
@@ -37,26 +38,13 @@ const StudentTable = () => {
 
   // console.log({ data });
   //
-  const [blockStudent, { isLoading }] = useSetStatusMutation();
 
   const handleChangeStatus = async (_id: string, status: string) => {
-    const userIdStatus = { _id, status: { status } };
+    // const userIdStatus = { _id, status: { status } };
+    setStudentId(_id);
+    setStatus({ status });
     setisModalOpen(true);
-
-    console.log(userIdStatus);
-    const id = toast.loading("Blocking Student", { position: "top-center" });
-
-    try {
-      const res = await blockStudent(userIdStatus).unwrap();
-      if (res.success) {
-        toast.success(`Student is ${status}`, { id, position: "top-center" });
-      }
-    } catch (error) {
-      toast.error("Fail to block student", { id, position: "top-center" });
-    }
   };
-
-  console.log(data);
 
   const students = data?.response?.map(
     ({ _id, customId, name, email, contactNo, user }) => ({
@@ -117,7 +105,7 @@ const StudentTable = () => {
                   : "in-progress"
               )
             }
-            loading={isLoading}
+            // loading={isLoading}
           >
             {value?.user?.status === "in-progress" ? "Block" : "UnBlock"}
           </Button>
@@ -167,6 +155,12 @@ const StudentTable = () => {
           onShowSizeChange={(_, newPageSize) => setLimits(newPageSize)}
         />
       </Row>
+      <UserModal
+        isModalOpen={isModalOpen}
+        setisModalOpen={setisModalOpen}
+        studentId={studentId}
+        status={status}
+      />
     </>
   );
 };

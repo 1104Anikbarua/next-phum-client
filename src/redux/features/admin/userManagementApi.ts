@@ -60,12 +60,12 @@ const userManagementApi = baseApi.injectEndpoints({
     }),
     //finish
     setStatus: builder.mutation({
-      query: ({ _id, status }) => {
+      query: ({ studentId, status }) => {
         //
         //
         console.log(status);
         return {
-          url: `/user/${_id}/change-status`,
+          url: `/user/${studentId}/change-status`,
           method: "POST",
           body: status,
         };
