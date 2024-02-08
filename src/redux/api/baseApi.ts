@@ -8,6 +8,7 @@ import type {
 } from "@reduxjs/toolkit/query/react";
 import { login, logout } from "../features/auth/authSlice";
 import { toast } from "sonner";
+import { IError } from "../../types";
 // import { TResponse } from "../../types/global";
 
 // befor refactor stage-1
@@ -31,10 +32,9 @@ const customBaseQuery: BaseQueryFn<
   // call the base query
   let result = await baseQuery(args, api, extraOptions);
 
-  // console.log(result);
-
   if (result?.error?.status === 400 || result.error?.status === 404) {
-    toast.error(result?.error?.data?.message, {
+    const errorResponse = result.error.data as IError;
+    toast.error(errorResponse?.data?.message, {
       duration: 2000,
     });
   }

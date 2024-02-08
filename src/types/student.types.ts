@@ -41,7 +41,7 @@ export interface IStudent {
   customId: string;
   user: string;
   name: TName;
-  //   age: number;
+  age: number;
   gender: TGender;
   dateOfBirth: string;
   email: string;

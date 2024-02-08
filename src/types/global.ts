@@ -1,5 +1,5 @@
 import { BaseQueryApi } from "@reduxjs/toolkit/query";
-export type TError = {
+export interface IError {
   //   error:
   data: {
     errorIssue: { path: string; message: string }[];
@@ -8,7 +8,7 @@ export type TError = {
     success: boolean;
   };
   status: number;
-};
+}
 
 export interface IMeta {
   count: number;
@@ -17,13 +17,13 @@ export interface IMeta {
   totalPage: number;
 }
 
-export type TResponse<T> = {
+export interface IResponse<T> {
   data?: T;
-  error?: TError;
+  error?: IError;
   meta?: IMeta;
   message: string;
   success: boolean;
-};
+}
 
 export interface IFilter {
   name: string;
@@ -34,4 +34,4 @@ export interface IArgs {
   value: string;
 }
 
-export interface IReduxResponse<T> extends TResponse<T>, BaseQueryApi {}
+export interface IReduxResponse<T> extends IResponse<T>, BaseQueryApi {}

@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { academicSemesterSchema } from "../../../schema/academidSemester/academicSemester.schema";
 import { useAddAcademicSemesterMutation } from "../../../redux/features/admin/academicManagementApi";
 import { toast } from "sonner";
-import { TError } from "../../../types/global";
+import { IError } from "../../../types/global";
 
 const year = new Date().getFullYear();
 const yearOptions = [0, 1, 2, 3, 4, 5].map((number) => ({
@@ -42,7 +42,7 @@ const CreateAcademicSemester = () => {
 
       //
     } catch (error) {
-      toast.error((error as TError).data.message);
+      toast.error((error as IError).data.message);
     }
   };
 

@@ -7,6 +7,9 @@ const courseManagementApi = baseApi.injectEndpoints({
         url: "/semester-registrations",
         method: "GET",
       }),
+      transformResponse: (response) => {
+        console.log(response);
+      },
     }),
     //finish
     addRegisterSemester: builder.mutation({
