@@ -9,6 +9,7 @@ interface ISelectProps {
   options: { value: string; label: string; disabled?: boolean }[] | undefined;
   placeholder: string;
   disabled?: boolean;
+  mode?: "multiple" | "tags" | undefined;
 }
 
 const PhSelect = ({
@@ -17,6 +18,7 @@ const PhSelect = ({
   options,
   placeholder,
   disabled,
+  mode,
 }: ISelectProps) => {
   //
   // value={
@@ -55,6 +57,7 @@ const PhSelect = ({
                 : field?.value)
             }
             disabled={disabled}
+            mode={mode}
           />
           {error && <small style={{ color: "red" }}>{error.message}</small>}
         </Form.Item>

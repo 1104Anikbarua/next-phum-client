@@ -1,4 +1,5 @@
-import { IReduxResponse } from "../../../types";
+import { IArgs, IReduxResponse } from "../../../types";
+import { ICourse } from "../../../types/course.types";
 import { ISemesterRegistration } from "../../../types/semesterRegistration.types";
 import { baseApi } from "../../api/baseApi";
 
@@ -41,6 +42,38 @@ const courseManagementApi = baseApi.injectEndpoints({
       invalidatesTags: ["registerSemester"],
     }),
     //finish
+    getAllCourses: builder.query({
+      query: (args) => {
+        //
+        const params = new URLSearchParams();
+
+        if (args) {
+          args.forEach((item: IArgs) => params.append(item.name, item.value));
+        }
+        return {
+          url: "/courses",
+          method: "GET",
+          params: params,
+        };
+      },
+      transformResponse: (response: IReduxResponse<ICourse[]>) => {
+        return {
+          response: response.data,
+          meta: response.meta,
+        };
+      },
+    }),
+    // finish
+    addCourse: builder.mutation({
+      query: (courseInfo) => {
+        return {
+          url: "/courses/create-course",
+          method: "POST",
+          body: courseInfo,
+        };
+      },
+    }),
+    //finish
   }),
 });
 
@@ -48,4 +81,6 @@ export const {
   useAddRegisterSemesterMutation,
   useGetRegisterSemesterQuery,
   useChangeSemesterStatusMutation,
+  useGetAllCoursesQuery,
+  useAddCourseMutation,
 } = courseManagementApi;
