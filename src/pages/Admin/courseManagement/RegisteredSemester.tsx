@@ -8,10 +8,15 @@ import {
   TableColumnsType,
   Tag,
 } from "antd";
-import { useGetRegisterSemesterQuery } from "../../../redux/features/admin/courseManagementApi";
+import {
+  useChangeSemesterStatusMutation,
+  useGetRegisterSemesterQuery,
+} from "../../../redux/features/admin/courseManagementApi";
 import { useState } from "react";
 import moment from "moment";
 import { CaretDownOutlined } from "@ant-design/icons";
+import { toast } from "sonner";
+import { IError } from "../../../types";
 //
 interface DataType {
   key: React.Key;
@@ -23,6 +28,7 @@ interface DataType {
 
 const RegisteredSemester = () => {
   //
+  const [id, setIds] = useState("");
   const [page, setPages] = useState(1);
   const [limit, setLimts] = useState(10);
   const { data: registerSemesters, isFetching } = useGetRegisterSemesterQuery([
@@ -30,6 +36,8 @@ const RegisteredSemester = () => {
     { name: "limit", value: limit },
     // { name: "sort", value: "createdAt" },
   ]);
+  const [changeSemesterStatus, { isLoading }] =
+    useChangeSemesterStatusMutation();
 
   const semesterData = registerSemesters?.response?.map(
     ({ _id, academicSemester, status, startDate, endDate }) => ({
@@ -40,7 +48,7 @@ const RegisteredSemester = () => {
       endDate: moment(new Date(endDate)).format("DD-MM-YYYY"), //return date-month-year
     })
   );
-  //   meta
+  //   meta data
   const meta = registerSemesters?.meta;
   //   console.log(registerSemesters);
   //
@@ -74,11 +82,37 @@ const RegisteredSemester = () => {
     },
   ];
   //
-  const handleChangeStatus = (data: unknown) => {
-    console.log(data);
+  // {change semester status}
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleChangeStatus = async (data: any) => {
+    const toastId = toast.loading("Updating Semester Status", {
+      position: "top-center",
+      duration: 2000,
+    });
+    const semesterStatus = {
+      status: { status: data.key },
+      id,
+    };
+    try {
+      const res = await changeSemesterStatus(semesterStatus).unwrap();
+
+      if (res.success) {
+        toast.success(res.message, {
+          id: toastId,
+          duration: 2000,
+          position: "top-center",
+        });
+      }
+    } catch (error) {
+      toast.error((error as IError)?.data?.message, {
+        id: toastId,
+        duration: 2000,
+        position: "top-center",
+      });
+    }
   };
   //
-  //
+  //pass the event handler and items in dropdown
   const menuProps = {
     items,
     onClick: handleChangeStatus,
@@ -124,10 +158,10 @@ const RegisteredSemester = () => {
       title: "Action",
       align: "center",
       key: "x",
-      render: () => {
+      render: (item) => {
         return (
-          <Dropdown menu={menuProps}>
-            <Button>
+          <Dropdown menu={menuProps} trigger={["click"]}>
+            <Button onClick={() => setIds(item.key)}>
               Change Status
               <CaretDownOutlined style={{ fontSize: "12px" }} />
             </Button>
@@ -140,7 +174,7 @@ const RegisteredSemester = () => {
   return (
     <>
       <Table
-        loading={isFetching}
+        loading={isFetching || isLoading}
         bordered={true}
         columns={columns}
         dataSource={semesterData}
