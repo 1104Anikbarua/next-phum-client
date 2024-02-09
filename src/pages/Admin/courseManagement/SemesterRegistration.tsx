@@ -8,6 +8,7 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useGetAcademicSemestersQuery } from "../../../redux/features/admin/academicManagementApi";
 import { useAddRegisterSemesterMutation } from "../../../redux/features/admin/courseManagementApi";
 import { toast } from "sonner";
+import { IError } from "../../../types";
 //
 const SemesterRegistration = () => {
   //
@@ -17,7 +18,6 @@ const SemesterRegistration = () => {
       value: "year",
     },
   ]);
-  console.log(data);
   //
   const [addRegisterSemester, { isLoading }] = useAddRegisterSemesterMutation();
 
@@ -41,13 +41,13 @@ const SemesterRegistration = () => {
     try {
       const res = await addRegisterSemester(data).unwrap();
       if (res.success) {
-        toast.success(`Semester registration is successful`, {
+        toast.success(res.message, {
           id,
           position: "top-center",
         });
       }
     } catch (error) {
-      toast.error("Semester registration is fail", {
+      toast.error((error as IError).data?.message, {
         id,
         position: "top-center",
       });
