@@ -1,7 +1,7 @@
 // import { ReactNode } from "react";
 // import { NavLink } from "react-router-dom";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
-import CreateAdmin from "../pages/Admin/CreateAdmin";
+import CreateAdmin from "../pages/Admin/userManagement/CreateAdmin";
 import CreateFaculty from "../pages/Admin/userManagement/CreateFaculty";
 import CreateStudent from "../pages/Admin/userManagement/CreateStudent";
 import AcademicDepartment from "../pages/Admin/academicSemesterManagement/AcademicDepartment";
@@ -16,6 +16,7 @@ import StudentDetails from "../pages/Admin/userManagement/StudentDetails";
 import SemesterRegistration from "../pages/Admin/courseManagement/SemesterRegistration";
 import OfferedCourse from "../pages/Admin/courseManagement/OfferedCourse";
 import CreateCourse from "../pages/Admin/courseManagement/CreateCourse";
+import RegisteredSemester from "../pages/Admin/courseManagement/RegisteredSemester";
 
 export const adminRoutes = [
   {
@@ -100,6 +101,11 @@ export const adminRoutes = [
         name: "Register Semester",
         path: "register-semester",
         element: <SemesterRegistration />,
+      },
+      {
+        name: "Registered Semester",
+        path: "registered-semester",
+        element: <RegisteredSemester />,
       },
       {
         name: "Create Course",

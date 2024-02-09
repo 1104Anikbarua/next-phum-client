@@ -6,7 +6,7 @@ import PhSelect from "../../../components/form/PhSelect";
 import PhDate from "../../../components/form/PhDate";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useGetAcademicSemestersQuery } from "../../../redux/features/admin/academicManagementApi";
-import { useAddRegisterSemesterMutation } from "../../../redux/features/admin/courseManagement";
+import { useAddRegisterSemesterMutation } from "../../../redux/features/admin/courseManagementApi";
 import { toast } from "sonner";
 //
 const SemesterRegistration = () => {

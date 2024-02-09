@@ -1,3 +1,5 @@
+import { IReduxResponse } from "../../../types";
+import { ISemesterRegistration } from "../../../types/semesterRegistration.types";
 import { baseApi } from "../../api/baseApi";
 
 const courseManagementApi = baseApi.injectEndpoints({
@@ -7,8 +9,13 @@ const courseManagementApi = baseApi.injectEndpoints({
         url: "/semester-registrations",
         method: "GET",
       }),
-      transformResponse: (response) => {
-        console.log(response);
+      transformResponse: (
+        response: IReduxResponse<ISemesterRegistration[]>
+      ) => {
+        return {
+          response: response?.data,
+          meta: response?.meta,
+        };
       },
     }),
     //finish
@@ -22,4 +29,5 @@ const courseManagementApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useAddRegisterSemesterMutation } = courseManagementApi;
+export const { useAddRegisterSemesterMutation, useGetRegisterSemesterQuery } =
+  courseManagementApi;
