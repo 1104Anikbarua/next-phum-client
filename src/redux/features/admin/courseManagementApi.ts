@@ -87,6 +87,15 @@ const courseManagementApi = baseApi.injectEndpoints({
       invalidatesTags: ["faculty"],
     }),
     //finish
+    addOfferedCourse: builder.mutation({
+      query: (courseInfo) => {
+        return {
+          url: "/offered-courses/create-offered-course",
+          method: "POST",
+          body: courseInfo,
+        };
+      },
+    }),
   }),
 });
 
@@ -97,4 +106,5 @@ export const {
   useGetAllCoursesQuery,
   useAddCourseMutation,
   useAddCourseFacultyMutation,
+  useAddOfferedCourseMutation,
 } = courseManagementApi;

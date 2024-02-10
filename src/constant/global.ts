@@ -28,3 +28,9 @@ export const gendersOptions = genders?.map((element) => ({
   label: element,
   value: element,
 }));
+
+export const days = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
+export const dayOptions = days?.map((day) => ({
+  label: day,
+  value: day,
+}));

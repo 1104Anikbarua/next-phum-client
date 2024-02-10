@@ -5,6 +5,7 @@ import PhSelect from "../../../components/form/PhSelect";
 import PhInputNumber from "../../../components/form/PhInputNumber";
 import PhInput from "../../../components/form/PhInput";
 import {
+  useAddOfferedCourseMutation,
   useGetAllCoursesQuery,
   useGetRegisterSemesterQuery,
 } from "../../../redux/features/admin/courseManagementApi";
@@ -15,16 +16,15 @@ import {
 import { useGetFacultiesQuery } from "../../../redux/features/admin/userManagementApi";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import PhSelectControl from "../../../components/form/PhSelectControl";
+import { dayOptions } from "../../../constant/global";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { offeredCourseSchema } from "../../../schema/offeredCourse/offeredCourse.schema";
+import { toast } from "sonner";
+import { IError } from "../../../types";
 
 const CreateOfferedCourse = () => {
   const [id, setIds] = useState("");
 
-  //generate days option in select dropdown
-  const days = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"].map((day) => ({
-    label: day,
-    value: day,
-  }));
-  //
   //generate course option in select dropdown
   const { data: courses, isFetching: courseFetching } =
     useGetAllCoursesQuery(undefined);
@@ -63,9 +63,34 @@ const CreateOfferedCourse = () => {
     label: fullName,
     value: _id,
   }));
+
+  const [addOfferedCourse, { isLoading }] = useAddOfferedCourseMutation();
+
   // create offered course handler
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     console.log(data);
+    const id = toast.loading("Creating offered course", { duration: 2000 });
+    try {
+      const res = await addOfferedCourse(data).unwrap();
+      if (res.success) {
+        toast.success(res.message, { id, duration: 2000 });
+      }
+    } catch (error) {
+      toast.error((error as IError).data.message, { id, duration: 2000 });
+    }
+  };
+
+  const semesterRegistrationDefault = {
+    academicDepartment: "65c376291282ccf03ff26d74",
+    academicFaculty: "65c375f71282ccf03ff26d6c",
+    course: "65ba62edc5cb29e4863f329d",
+    days: ["Sat", "Sun"],
+    endTime: "11:30",
+    faculty: "65c720a7c907f443ddc97665",
+    maxCapacity: 40,
+    section: "A",
+    semesterRegistration: "65c4f7f12de730ecc54514c4",
+    startTime: "09:30",
   };
 
   return courseFetching ? (
@@ -75,7 +100,11 @@ const CreateOfferedCourse = () => {
     // justify={"center"} align={"middle"}
     >
       <Col span={24}>
-        <PhForm onSubmit={onSubmit}>
+        <PhForm
+          onSubmit={onSubmit}
+          resolver={zodResolver(offeredCourseSchema)}
+          defaultValues={semesterRegistrationDefault}
+        >
           {/* ** */}
           {/* course  */}
           <Divider>Academic Information</Divider>
@@ -181,7 +210,7 @@ const CreateOfferedCourse = () => {
             <Col span={24} sm={12} md={12} lg={8}>
               <PhSelect
                 mode={"multiple"}
-                options={days}
+                options={dayOptions}
                 name="days"
                 placeholder="Day"
                 key={"days"}
@@ -191,7 +220,7 @@ const CreateOfferedCourse = () => {
           </Row>
           {/*  */}
           <Row justify={"end"}>
-            <Button htmlType="submit" type="primary">
+            <Button htmlType="submit" type="primary" loading={isLoading}>
               Create Offered Course
             </Button>
           </Row>

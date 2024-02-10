@@ -33,8 +33,8 @@ const customBaseQuery: BaseQueryFn<
   let result = await baseQuery(args, api, extraOptions);
 
   if (result?.error?.status === 400 || result.error?.status === 404) {
-    const errorResponse = result.error.data as IError;
-    toast.error(errorResponse?.data?.message, {
+    const errorResponse = result.error as IError;
+    toast.error(errorResponse.data.message, {
       duration: 2000,
     });
   }
