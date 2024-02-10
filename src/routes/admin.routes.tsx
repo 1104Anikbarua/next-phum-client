@@ -20,6 +20,7 @@ import RegisteredSemester from "../pages/Admin/courseManagement/RegisteredSemest
 import Course from "../pages/Admin/courseManagement/Course";
 import AdminTable from "../pages/Admin/userManagement/AdminTable";
 import FacultyTable from "../pages/Admin/userManagement/FacultyTable";
+import CreateOfferedCourse from "../pages/Admin/courseManagement/CreateOfferedCourse";
 
 export const adminRoutes = [
   {
@@ -129,6 +130,11 @@ export const adminRoutes = [
         name: "Course",
         path: "course",
         element: <Course />,
+      },
+      {
+        name: "Create Offered Course",
+        path: "create-offered-course",
+        element: <CreateOfferedCourse />,
       },
       {
         name: "Offered Course",

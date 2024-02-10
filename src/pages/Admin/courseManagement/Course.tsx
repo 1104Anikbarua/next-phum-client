@@ -1,7 +1,24 @@
 // import React from "react";
 import { useState } from "react";
-import { useGetAllCoursesQuery } from "../../../redux/features/admin/courseManagementApi";
-import { Pagination, Row, Table, TableColumnsType } from "antd";
+import {
+  useAddCourseFacultyMutation,
+  useGetAllCoursesQuery,
+} from "../../../redux/features/admin/courseManagementApi";
+import {
+  Button,
+  Col,
+  Modal,
+  Pagination,
+  Row,
+  Table,
+  TableColumnsType,
+} from "antd";
+import PhForm from "../../../components/form/PhForm";
+import PhSelect from "../../../components/form/PhSelect";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import { useGetFacultiesQuery } from "../../../redux/features/admin/userManagementApi";
+import { toast } from "sonner";
+import { IError } from "../../../types";
 
 interface DataType {
   key: React.Key;
@@ -19,6 +36,7 @@ const Course = () => {
     { name: "page", value: page },
     { name: "limit", value: limit },
   ]);
+  //
 
   //   meta for pagination
   const meta = courses?.meta;
@@ -48,6 +66,14 @@ const Course = () => {
       dataIndex: "credits",
       align: "center",
     },
+    {
+      title: "Action",
+      align: "center",
+      key: "action",
+      render: (course) => {
+        return <AssignFacultyModal course={course} />;
+      },
+    },
   ];
 
   return (
@@ -68,6 +94,101 @@ const Course = () => {
           onShowSizeChange={(_, newPageSize) => setLimits(newPageSize)}
         />
       </Row>
+    </>
+  );
+};
+
+// assign faculty modal
+interface IModalProps {
+  course: { key: string; title: string; credits: number; code: number };
+}
+const AssignFacultyModal = ({ course }: IModalProps) => {
+  //
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  //
+  //get faculty from db
+  const { data: faculty, isFetching } = useGetFacultiesQuery(undefined);
+  const facultyOptions = faculty?.response?.map(({ fullName, _id }) => ({
+    label: fullName,
+    value: _id,
+  }));
+  //
+  const [addFaculty, { isLoading }] = useAddCourseFacultyMutation();
+  //open the modal
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  //modal cross button
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const id = toast.loading(`Faculty assign for ${course.title}`, {
+      position: "top-center",
+      duration: 2000,
+    });
+    const facultInfo = {
+      courseFaculty: { courseFaculty: data },
+      id: course?.key,
+    };
+
+    try {
+      const res = await addFaculty(facultInfo).unwrap();
+      if (res.success) {
+        toast.success(res.message, {
+          id,
+          duration: 2000,
+          position: "top-center",
+        });
+      }
+    } catch (error) {
+      toast.error((error as IError).data.message, {
+        id,
+        position: "top-center",
+        duration: 2000,
+      });
+    }
+  };
+  return (
+    <>
+      <Button type="default" onClick={showModal}>
+        Assign Faculty/Teacher
+      </Button>
+      <Modal
+        title="Basic Modal"
+        open={isModalOpen}
+        onCancel={handleCancel}
+        centered
+        footer={null}
+      >
+        <Row justify={"center"}>
+          <Col>
+            <PhForm onSubmit={onSubmit}>
+              <PhSelect
+                label="Faculty"
+                name="faculties"
+                placeholder="Please select faculty name"
+                options={facultyOptions}
+                mode={"multiple"}
+                key={"faculty"}
+                disabled={isFetching}
+              />
+              <Button
+                htmlType="submit"
+                type="primary"
+                block
+                disabled={isFetching}
+                loading={isLoading}
+              >
+                Submit
+              </Button>
+            </PhForm>
+          </Col>
+        </Row>
+      </Modal>
     </>
   );
 };
