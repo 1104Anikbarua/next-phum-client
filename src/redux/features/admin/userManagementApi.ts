@@ -1,4 +1,5 @@
 import { IArgs, IReduxResponse } from "../../../types";
+import { IFaculty } from "../../../types/faculty.types";
 import { IStudent } from "../../../types/student.types";
 import { baseApi } from "../../api/baseApi";
 
@@ -60,18 +61,61 @@ const userManagementApi = baseApi.injectEndpoints({
     }),
     //finish
     setStatus: builder.mutation({
-      query: ({ studentId, status }) => {
+      query: ({ id, status }) => {
         //
         //
-        console.log(status);
         return {
-          url: `/user/${studentId}/change-status`,
+          url: `/user/${id}/change-status`,
           method: "POST",
           body: status,
         };
       },
-      invalidatesTags: ["student"],
+      invalidatesTags: ["student", "faculty"],
     }),
+    //finish
+    getFaculties: builder.query({
+      query: (args) => {
+        const params = new URLSearchParams();
+        if (args) {
+          args.forEach((item: IArgs) => params.append(item.name, item.value));
+        }
+        return {
+          url: "/faculties",
+          method: "GET",
+          params: params,
+        };
+      },
+      transformResponse: (response: IReduxResponse<IFaculty[]>) => {
+        return {
+          response: response?.data,
+          meta: response?.meta,
+        };
+      },
+      providesTags: ["faculty"],
+    }),
+    //finish
+    addFaculty: builder.mutation({
+      query: (facultyInfo) => {
+        return {
+          url: "/user/create-faculties",
+          method: "POST",
+          body: facultyInfo,
+        };
+      },
+      invalidatesTags: ["faculty"],
+    }),
+    //finish
+    //todo donot use
+    setFacultyStatus: builder.mutation({
+      query: (args) => {
+        return {
+          url: `/faculties/${args.id}`,
+          method: "PATCH",
+          body: args,
+        };
+      },
+    }),
+    // finish,
   }),
 });
 
@@ -81,4 +125,7 @@ export const {
   useGetStudentQuery,
   useSetStudentMutation,
   useSetStatusMutation,
+  useGetFacultiesQuery,
+  useAddFacultyMutation,
+  useSetFacultyStatusMutation,
 } = userManagementApi;

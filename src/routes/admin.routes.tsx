@@ -18,6 +18,8 @@ import OfferedCourse from "../pages/Admin/courseManagement/OfferedCourse";
 import CreateCourse from "../pages/Admin/courseManagement/CreateCourse";
 import RegisteredSemester from "../pages/Admin/courseManagement/RegisteredSemester";
 import Course from "../pages/Admin/courseManagement/Course";
+import AdminTable from "../pages/Admin/userManagement/AdminTable";
+import FacultyTable from "../pages/Admin/userManagement/FacultyTable";
 
 export const adminRoutes = [
   {
@@ -79,9 +81,19 @@ export const adminRoutes = [
         element: <CreateAdmin />,
       },
       {
+        name: "Admin",
+        path: "admin",
+        element: <AdminTable />,
+      },
+      {
         name: "Create-Faculty",
         path: "create-faculty",
         element: <CreateFaculty />,
+      },
+      {
+        name: "Faculty",
+        path: "faculty",
+        element: <FacultyTable />,
       },
       {
         // name: "Update Student",

@@ -1,15 +1,12 @@
 import React from "react";
-import {
-  // Button,
-  Modal,
-} from "antd";
+import { Modal } from "antd";
 import { useSetStatusMutation } from "../../redux/features/admin/userManagementApi";
 import { toast } from "sonner";
 
 interface IModalProps {
   isModalOpen: boolean;
   setisModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  studentId: string;
+  id: string;
   status: {
     status: string;
   };
@@ -18,27 +15,36 @@ interface IModalProps {
 const UserModal = ({
   isModalOpen,
   setisModalOpen,
-  studentId,
+  id,
   status,
 }: IModalProps) => {
   //
-  const [blockStudent, { isLoading }] = useSetStatusMutation();
+  // change user status
+  const [setStatus, { isLoading }] = useSetStatusMutation();
+  //
+
   //
   const handleChangeStatus = async () => {
-    const userIdStatus = { studentId, status };
+    const userIdStatus = { id, status };
     //
     // console.log(userIdStatus);
-    const id = toast.loading("Blocking Student", { position: "top-center" });
+    //
+    const toastId = toast.loading("Blocking User", {
+      position: "top-center",
+    });
     try {
-      const res = await blockStudent(userIdStatus).unwrap();
+      const res = await setStatus(userIdStatus).unwrap();
       if (res.success) {
-        toast.success(`Student is ${status.status}`, {
-          id,
+        toast.success(`User is ${status.status}`, {
+          id: toastId,
           position: "top-center",
         });
       }
     } catch (error) {
-      toast.error("Fail to block student", { id, position: "top-center" });
+      toast.error(`Fail to ${status.status} user`, {
+        id: toastId,
+        position: "top-center",
+      });
     }
   };
   return (

@@ -62,6 +62,7 @@ const courseManagementApi = baseApi.injectEndpoints({
           meta: response.meta,
         };
       },
+      providesTags: ["course"],
     }),
     // finish
     addCourse: builder.mutation({
@@ -72,6 +73,7 @@ const courseManagementApi = baseApi.injectEndpoints({
           body: courseInfo,
         };
       },
+      invalidatesTags: ["course"],
     }),
     //finish
   }),
