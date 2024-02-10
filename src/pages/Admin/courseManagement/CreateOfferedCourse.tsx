@@ -68,7 +68,6 @@ const CreateOfferedCourse = () => {
 
   // create offered course handler
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
     const id = toast.loading("Creating offered course", { duration: 2000 });
     try {
       const res = await addOfferedCourse(data).unwrap();
