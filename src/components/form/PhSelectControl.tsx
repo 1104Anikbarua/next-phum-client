@@ -1,7 +1,8 @@
 // import React from 'react';
 
 import { Form, Select } from "antd";
-import { Controller } from "react-hook-form";
+import { useEffect } from "react";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
 
 interface ISelectProps {
   name: string;
@@ -10,26 +11,30 @@ interface ISelectProps {
   placeholder: string;
   disabled?: boolean;
   mode?: "multiple" | "tags" | undefined;
+  onValueChange: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const PhSelect = ({
+const PhSelectControl = ({
   name,
   label,
   options,
   placeholder,
   disabled,
   mode,
+  onValueChange,
 }: ISelectProps) => {
-  //
-  // value={
-  //   // not work if select change
-  //   // eslint-disable-next-line no-constant-condition
-  //   (field?.name === "admissionSemester" &&
-  //     `${field?.value?.name} ${field?.value?.year}`) ||
-  //   (field?.name === "academicDepartment"
-  //     ? field?.value?.name
-  //     : field?.value)
-  // }
+  // use useFormContext because we use form provider
+  const { control } = useFormContext();
+
+  // use watch is watching if anything written or selected to provided field
+  const selectValue = useWatch({
+    control,
+    name, //only watch what field name inside name
+  });
+
+  useEffect(() => {
+    onValueChange(selectValue); //onValueChange===setIds and set the value in state
+  }, [onValueChange, selectValue]);
 
   return (
     <Controller
@@ -38,7 +43,6 @@ const PhSelect = ({
         // console.log(field),
         <Form.Item label={label} required={true}>
           <Select
-            allowClear
             placeholder={placeholder}
             style={{ width: "100%" }}
             // before refactor
@@ -67,4 +71,4 @@ const PhSelect = ({
   );
 };
 
-export default PhSelect;
+export default PhSelectControl;

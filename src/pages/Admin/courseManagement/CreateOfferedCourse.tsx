@@ -1,5 +1,5 @@
-// import React from 'react';
-import { Col, Divider, Row } from "antd";
+import { useState } from "react";
+import { Button, Col, Divider, Row, Spin } from "antd";
 import PhForm from "../../../components/form/PhForm";
 import PhSelect from "../../../components/form/PhSelect";
 import PhInputNumber from "../../../components/form/PhInputNumber";
@@ -13,8 +13,12 @@ import {
   useGetAcademicFacultiesQuery,
 } from "../../../redux/features/admin/academicManagementApi";
 import { useGetFacultiesQuery } from "../../../redux/features/admin/userManagementApi";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import PhSelectControl from "../../../components/form/PhSelectControl";
 
 const CreateOfferedCourse = () => {
+  const [id, setIds] = useState("");
+
   //generate days option in select dropdown
   const days = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"].map((day) => ({
     label: day,
@@ -22,26 +26,30 @@ const CreateOfferedCourse = () => {
   }));
   //
   //generate course option in select dropdown
-  const { data: courses } = useGetAllCoursesQuery(undefined);
+  const { data: courses, isFetching: courseFetching } =
+    useGetAllCoursesQuery(undefined);
   const courseOptions = courses?.response?.map(({ _id, title }) => ({
     label: title,
     value: _id,
   }));
   //generate academic faculty option in select dropdown
-  const { data: academicFaculties } = useGetAcademicFacultiesQuery(undefined);
+  const { data: academicFaculties, isFetching: academicFacultyFetching } =
+    useGetAcademicFacultiesQuery(undefined);
   const academicFacultyOptions = academicFaculties?.result?.map(
     ({ _id, name }) => ({ label: name, value: _id })
   );
   //
   //generate course option in select dropdown
-  const { data: academicDepartments } =
+  const { data: academicDepartments, isFetching: academicDepartmentFetching } =
     useGetAcademicDepartmentQuery(undefined);
   const academicDepartmentOptions = academicDepartments?.result?.map(
     ({ _id, name }) => ({ label: name, value: _id })
   );
   //generate course option in select dropdown
-  const { data: semesterRegistrations } =
-    useGetRegisterSemesterQuery(undefined);
+  const {
+    data: semesterRegistrations,
+    isFetching: semesterRegistrationFetching,
+  } = useGetRegisterSemesterQuery(undefined);
   const semesterRegistrationOptions = semesterRegistrations?.response?.map(
     ({ _id, academicSemester }) => ({
       label: `${academicSemester.name} ${academicSemester.year}`,
@@ -49,15 +57,20 @@ const CreateOfferedCourse = () => {
     })
   );
   //generate course option in select dropdown
-  const { data: faculties } = useGetFacultiesQuery(undefined);
+  const { data: faculties, isFetching: facultiesFetching } =
+    useGetFacultiesQuery(undefined);
   const facultyOptions = faculties?.response?.map(({ _id, fullName }) => ({
     label: fullName,
     value: _id,
   }));
   // create offered course handler
-  const onSubmit = () => {};
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    console.log(data);
+  };
 
-  return (
+  return courseFetching ? (
+    <Spin fullscreen />
+  ) : (
     <Row
     // justify={"center"} align={"middle"}
     >
@@ -68,12 +81,14 @@ const CreateOfferedCourse = () => {
           <Divider>Academic Information</Divider>
           <Row gutter={[16, 16]}>
             <Col span={24} sm={12} md={12} lg={8}>
-              <PhSelect
+              <PhSelectControl
                 name="course"
                 label="Course Name"
                 options={courseOptions}
                 placeholder="Course Name"
                 key={"course"}
+                disabled={courseFetching}
+                onValueChange={setIds}
               />
             </Col>
             {/* academic faculty  */}
@@ -84,6 +99,7 @@ const CreateOfferedCourse = () => {
                 options={academicFacultyOptions}
                 placeholder="Academic Faculty"
                 key={"academicFaculty"}
+                disabled={academicFacultyFetching}
               />
             </Col>
             {/* academic department  */}
@@ -94,6 +110,7 @@ const CreateOfferedCourse = () => {
                 options={academicDepartmentOptions}
                 placeholder="Academic Department"
                 key={"academicDepartment"}
+                disabled={academicDepartmentFetching}
               />
             </Col>
             {/* semester registration  */}
@@ -103,6 +120,7 @@ const CreateOfferedCourse = () => {
                 label="Semester Registration"
                 options={semesterRegistrationOptions}
                 placeholder="Semester Registration"
+                disabled={semesterRegistrationFetching}
               />
             </Col>
             {/* faculty  */}
@@ -113,6 +131,7 @@ const CreateOfferedCourse = () => {
                 options={facultyOptions}
                 placeholder="Faculty Name"
                 key={"faculty"}
+                disabled={!id || facultiesFetching}
               />
             </Col>
           </Row>
@@ -171,6 +190,11 @@ const CreateOfferedCourse = () => {
             </Col>
           </Row>
           {/*  */}
+          <Row justify={"end"}>
+            <Button htmlType="submit" type="primary">
+              Create Offered Course
+            </Button>
+          </Row>
         </PhForm>
       </Col>
     </Row>
