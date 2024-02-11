@@ -1,5 +1,6 @@
 import { IArgs, IReduxResponse } from "../../../types";
 import { ICourse } from "../../../types/course.types";
+import { IFacultyByCourse } from "../../../types/facultyByCourse.types";
 import { IOfferedCourse } from "../../../types/offeredCourse.types";
 import { ISemesterRegistration } from "../../../types/semesterRegistration.types";
 import { baseApi } from "../../api/baseApi";
@@ -102,7 +103,6 @@ const courseManagementApi = baseApi.injectEndpoints({
         };
       },
       transformResponse: (response: IReduxResponse<IOfferedCourse[]>) => {
-        console.log(response);
         return { response: response.data, meta: response.meta };
       },
     }),
@@ -116,6 +116,21 @@ const courseManagementApi = baseApi.injectEndpoints({
         };
       },
     }),
+    //finish
+    getFacultiesByCourseId: builder.query({
+      query: (args) => {
+        return {
+          url: `/courses/${args}/faculties`,
+          method: "GET",
+          // params: args,
+        };
+      },
+      transformResponse: (response: IReduxResponse<IFacultyByCourse>) => {
+        console.log(response);
+        return { response: response.data };
+      },
+    }),
+    // finish
   }),
 });
 
@@ -128,4 +143,5 @@ export const {
   useAddCourseFacultyMutation,
   useAddOfferedCourseMutation,
   useGetOfferedCoursesQuery,
+  useGetFacultiesByCourseIdQuery,
 } = courseManagementApi;

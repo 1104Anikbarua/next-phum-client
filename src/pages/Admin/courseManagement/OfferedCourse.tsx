@@ -1,5 +1,5 @@
 // import React from 'react';
-import { Table, TableColumnsType } from "antd";
+import { Pagination, Row, Table, TableColumnsType } from "antd";
 import { useGetOfferedCoursesQuery } from "../../../redux/features/admin/courseManagementApi";
 import { useState } from "react";
 
@@ -42,7 +42,8 @@ const OfferedCourse = () => {
     },
   ];
 
-  console.log(offeredCourse);
+  const meta = offeredCourses?.meta;
+
   return (
     <>
       <Table
@@ -51,6 +52,15 @@ const OfferedCourse = () => {
         dataSource={offeredCourse}
         pagination={false}
       />
+      <Row justify={"center"}>
+        <Pagination
+          current={page}
+          onChange={(value) => setPages(value)}
+          showSizeChanger
+          onShowSizeChange={(_, newPageSize) => setLimits(newPageSize)}
+          total={meta?.count}
+        />
+      </Row>
     </>
   );
 };

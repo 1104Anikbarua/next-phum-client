@@ -7,13 +7,13 @@ import PhInput from "../../../components/form/PhInput";
 import {
   useAddOfferedCourseMutation,
   useGetAllCoursesQuery,
+  useGetFacultiesByCourseIdQuery,
   useGetRegisterSemesterQuery,
 } from "../../../redux/features/admin/courseManagementApi";
 import {
   useGetAcademicDepartmentQuery,
   useGetAcademicFacultiesQuery,
 } from "../../../redux/features/admin/academicManagementApi";
-import { useGetFacultiesQuery } from "../../../redux/features/admin/userManagementApi";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import PhSelectControl from "../../../components/form/PhSelectControl";
 import { dayOptions } from "../../../constant/global";
@@ -22,6 +22,9 @@ import { offeredCourseSchema } from "../../../schema/offeredCourse/offeredCourse
 import { toast } from "sonner";
 import { IError } from "../../../types";
 
+// todo assign all faculty for courses or this component is going to crush either handle this problem in backend or handle it here
+// beacuse when you donot assign faculty/teacher for a course /courses faculties property is null and you can not generate faculty options in select from null
+// to fix assign faculties for a course in assign course faculties in course page or course table
 const CreateOfferedCourse = () => {
   const [id, setIds] = useState("");
 
@@ -58,11 +61,22 @@ const CreateOfferedCourse = () => {
   );
   //generate course option in select dropdown
   const { data: faculties, isFetching: facultiesFetching } =
-    useGetFacultiesQuery(undefined);
-  const facultyOptions = faculties?.response?.map(({ _id, fullName }) => ({
-    label: fullName,
-    value: _id,
-  }));
+    useGetFacultiesByCourseIdQuery(id, { skip: !id });
+
+  // !!!check line 25 no comment
+  const facultyOptions = faculties?.response?.faculties?.map(
+    ({ _id, fullName }) => ({
+      label: fullName,
+      value: _id,
+    })
+  );
+
+  // faculties?.response?.faculties.map(
+  //   ({ faculties }) => ({
+  //     label: faculties?.fullName,
+  //     value: faculties?._id,
+  //   })
+  // );
 
   const [addOfferedCourse, { isLoading }] = useAddOfferedCourseMutation();
 
