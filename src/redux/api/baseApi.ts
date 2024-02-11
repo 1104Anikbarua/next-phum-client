@@ -76,6 +76,12 @@ export const baseApi = createApi({
   // befor refactor stage-2
   // baseQuery,
   baseQuery: customBaseQuery,
-  tagTypes: ["student", "faculty", "registerSemester", "course"],
+  tagTypes: [
+    "student",
+    "faculty",
+    "registerSemester",
+    "course",
+    "offeredCourse",
+  ],
   endpoints: () => ({}),
 });

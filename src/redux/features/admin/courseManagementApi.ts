@@ -102,6 +102,7 @@ const courseManagementApi = baseApi.injectEndpoints({
           params: params,
         };
       },
+      providesTags: ["offeredCourse"],
       transformResponse: (response: IReduxResponse<IOfferedCourse[]>) => {
         return { response: response.data, meta: response.meta };
       },
@@ -115,6 +116,7 @@ const courseManagementApi = baseApi.injectEndpoints({
           body: courseInfo,
         };
       },
+      invalidatesTags: ["offeredCourse"],
     }),
     //finish
     getFacultiesByCourseId: builder.query({
@@ -128,6 +130,7 @@ const courseManagementApi = baseApi.injectEndpoints({
       transformResponse: (response: IReduxResponse<IFacultyByCourse>) => {
         return { response: response.data };
       },
+      providesTags: ["course"],
     }),
     // finish
   }),

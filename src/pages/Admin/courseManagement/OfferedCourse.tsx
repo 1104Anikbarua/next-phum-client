@@ -16,12 +16,14 @@ const OfferedCourse = () => {
     { name: "limit", value: limit },
   ]);
 
+  // console.log(offeredCourses);
   const offeredCourse = offeredCourses?.response?.map(
-    ({ _id, course, faculty, academicSemester }) => ({
+    ({ _id, course, faculty, academicSemester, semesterRegistration }) => ({
       key: _id,
       courseName: course.title,
       facultyName: faculty.fullName,
       academicSemester: `${academicSemester.name} ${academicSemester.year}`,
+      status: semesterRegistration.status,
     })
   );
   const columns: TableColumnsType<DataType> = [
@@ -38,6 +40,11 @@ const OfferedCourse = () => {
     {
       title: "Academic Semester",
       dataIndex: "academicSemester",
+      align: "center",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
       align: "center",
     },
   ];
