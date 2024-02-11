@@ -126,7 +126,6 @@ const courseManagementApi = baseApi.injectEndpoints({
         };
       },
       transformResponse: (response: IReduxResponse<IFacultyByCourse>) => {
-        console.log(response);
         return { response: response.data };
       },
     }),

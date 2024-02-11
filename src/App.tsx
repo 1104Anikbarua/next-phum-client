@@ -3,7 +3,7 @@ import RequireAuth from "./components/shared/authentication/RequireAuth/RequireA
 
 function App() {
   return (
-    <RequireAuth>
+    <RequireAuth role={undefined}>
       <MainLayout />
     </RequireAuth>
   );

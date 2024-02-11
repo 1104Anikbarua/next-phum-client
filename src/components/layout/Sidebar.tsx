@@ -5,10 +5,17 @@ import { adminRoutes } from "../../routes/admin.routes";
 import { facultyRoutes } from "../../routes/faculty.routes";
 import { studentRoutes } from "../../routes/student.routes";
 import { useAppSelector } from "../../redux/hooks";
+import { getDecodedUser } from "../../utlis/decodeUser.utlis";
+import { IUser } from "../../redux/features/auth/authSlice";
 
 const Sidebar = () => {
-  const { user } = useAppSelector((state) => state.auth);
+  const { token } = useAppSelector((state) => state.auth);
 
+  // With this admin,faculty,student cannot view each other routes
+  let user;
+  if (token) {
+    user = getDecodedUser(token);
+  }
   const userRole = {
     Admin: "Admin",
     Faculty: "Faculty",
@@ -17,7 +24,7 @@ const Sidebar = () => {
 
   let sideBarRoutes;
 
-  switch (user?.role) {
+  switch ((user as IUser)?.role) {
     case userRole.Admin:
       sideBarRoutes = getSidebarRoutes(
         adminRoutes,
@@ -25,7 +32,10 @@ const Sidebar = () => {
       );
       break;
     case userRole.Faculty:
-      sideBarRoutes = getSidebarRoutes(facultyRoutes, userRole.Faculty);
+      sideBarRoutes = getSidebarRoutes(
+        facultyRoutes,
+        userRole.Faculty.toLowerCase()
+      );
       break;
     case userRole.Student:
       sideBarRoutes = getSidebarRoutes(

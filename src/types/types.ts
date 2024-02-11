@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 export type TItems = {
-  name: string;
+  name?: string; //fix
   path?: string;
   element?: ReactNode;
   children?: TItems[];
@@ -14,13 +14,14 @@ export type TRoute = {
 
 export type TSidebarRoute =
   | {
-      key: string;
+      key: string | undefined; //fix
       label: ReactNode;
       children?: TSidebarRoute[];
     }
-  | undefined;
+  | undefined; //fix
 
 // type for those component that recive only reactnode as children
 export interface IChildren {
   children: ReactNode;
+  role: string | undefined;
 }

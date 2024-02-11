@@ -27,7 +27,8 @@ const Login = () => {
   //   defaultValues: { customId: "A-0001", password: "12345678" },
   // });
 
-  const defaultValues = { customId: "A-0001", password: "12345678" };
+  // const defaultValues = { customId: "A-0001", password: "12345678" };
+  const defaultValues = { customId: "2024030001", password: "12345678" };
 
   const onSubmit = async (data: FieldValues) => {
     // toast id can be use to close this toast if other toast is on the chain
@@ -40,18 +41,27 @@ const Login = () => {
       const res = await setLogin(data).unwrap();
       const user = getDecodedUser(res.data.accessToken) as IUser;
       dispatch(login({ user, token: res.data.accessToken }));
+
       //one solution if role is not exists in user object.
       // if ((user as { role: string })?.role as string) {
       //   navigate(from, { replace: true });
       // }
-      toast.success("Logged in successful", {
-        duration: 2000,
-        icon: <CheckCircleOutlined />,
-        position: "top-center",
-        id: toastId,
-      });
-      const from = location?.state?.from?.pathname || `/${user?.role}`;
-      navigate(from, { replace: true });
+
+      //if changepassword is true then navigate the user to the change password component
+      if (res?.data?.changePassword) {
+        console.log("first");
+        navigate("/change-password");
+      } else {
+        toast.success("Logged in successful", {
+          duration: 2000,
+          icon: <CheckCircleOutlined />,
+          position: "top-center",
+          id: toastId,
+        });
+
+        const from = location?.state?.from?.pathname || `/${user?.role}`;
+        navigate(from, { replace: true });
+      }
     } catch (error) {
       toast.error("Login failed", {
         duration: 2000,
